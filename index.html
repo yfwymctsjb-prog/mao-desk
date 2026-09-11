@@ -16,50 +16,64 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Satoshi',system-ui,sans-serif;font-size:15px;line-height:1.5}
-a{color:var(--accent)}
 header{border-bottom:1px solid var(--line);padding:18px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.02em;font-size:18px}
 .logo svg{color:var(--accent)}
 header .tag{color:var(--muted);font-size:13px;border-left:1px solid var(--line);padding-left:14px}
-main{max-width:1240px;margin:0 auto;padding:24px;display:grid;grid-template-columns:380px 1fr;gap:24px;align-items:start}
-@media(max-width:960px){main{grid-template-columns:1fr}}
+main{max-width:1300px;margin:0 auto;padding:24px;display:grid;grid-template-columns:390px 1fr;gap:24px;align-items:start}
+@media(max-width:1000px){main{grid-template-columns:1fr}}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
 h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 14px;font-weight:700}
 h3{font-size:15px;margin:22px 0 10px;font-weight:700}
+h4{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin:20px 0 8px;font-weight:700}
 label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px}
 .hint{font-size:11.5px;color:#6f7d8c;margin-top:4px}
 input,select{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);
   padding:9px 11px;border-radius:8px;font-family:var(--mono);font-size:14px}
+input[type=checkbox]{width:auto;accent-color:var(--accent)}
 input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.calcline{display:flex;justify-content:space-between;gap:10px;background:var(--accent-soft);border:1px solid rgba(24,169,153,.3);
+  border-radius:8px;padding:8px 11px;margin-top:8px;font-size:12.5px}
+.calcline b{font-family:var(--mono);font-size:13.5px}
 .btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
 button{font-family:inherit;font-weight:700;font-size:14px;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--text)}
 button.primary{background:var(--accent);border-color:var(--accent);color:#04211e}
-button:hover{filter:brightness(1.1)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+button:hover{filter:brightness(1.12)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:14px}
 .kpi{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:14px}
 .kpi .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
-.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
+.kpi .v{font-family:var(--mono);font-size:23px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
 .kpi.hero{border-color:var(--accent);background:linear-gradient(180deg,var(--accent-soft),transparent)}
 table{width:100%;border-collapse:collapse;font-size:13.5px}
 th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
 thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
 td.num,th.num{font-family:var(--mono)}
-tr.total td{font-weight:700;border-top:1px solid var(--line);border-bottom:none}
+tr.total td{font-weight:700;border-top:1px solid var(--line);border-bottom:none;white-space:nowrap}
+tr.sub td{color:var(--muted);font-size:12.5px}
 .badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;border:1px solid}
 .b-good{color:var(--good);border-color:rgba(62,201,138,.4);background:rgba(62,201,138,.1)}
 .b-warn{color:var(--warn);border-color:rgba(229,165,75,.4);background:rgba(229,165,75,.1)}
 .b-bad{color:var(--bad);border-color:rgba(229,98,75,.4);background:rgba(229,98,75,.1)}
 .grid-sens td.cell{font-family:var(--mono);font-weight:600}
-.cell-good{background:rgba(62,201,138,.13)}
-.cell-warn{background:rgba(229,165,75,.13)}
-.cell-bad{background:rgba(229,98,75,.15)}
+.cell-good{background:rgba(62,201,138,.13)} .cell-warn{background:rgba(229,165,75,.13)} .cell-bad{background:rgba(229,98,75,.15)}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:760px){.split{grid-template-columns:1fr}}
-footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1240px;margin:0 auto}
+@media(max-width:780px){.split{grid-template-columns:1fr}.row3{grid-template-columns:1fr}}
+footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1300px;margin:0 auto}
 .stack{display:flex;flex-direction:column;gap:24px}
 .mini{font-size:12.5px;color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto}
+.tabs button{border:none;background:none;border-radius:0;border-bottom:2px solid transparent;color:var(--muted);
+  padding:10px 14px;font-size:13.5px;white-space:nowrap}
+.tabs button.on{color:var(--text);border-bottom-color:var(--accent)}
+.pane{display:none} .pane.on{display:block}
+.inc{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-top:18px}
+.seg{display:flex;gap:0;margin-top:5px}
+.seg button{flex:1;border-radius:0;font-size:12.5px;padding:8px 6px;border:1px solid var(--line)}
+.seg button:first-child{border-radius:8px 0 0 8px} .seg button:last-child{border-radius:0 8px 8px 0}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:#04211e}
 </style>
 </head>
 <body>
@@ -68,11 +82,11 @@ footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1240px;margi
     <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-label="MAO Desk logo"><path d="M4 23 L16 7 L28 23" stroke="currentColor" stroke-width="2.6"/><path d="M11 23 L16 16 L21 23" stroke="currentColor" stroke-width="2.6" opacity=".5"/></svg>
     MAO Desk
   </div>
-  <div class="tag">Wholesale underwriting &amp; buyer-margin calculator</div>
+  <div class="tag">Wholesale underwriting · exit comparison · buyer deal summary</div>
 </header>
 
 <main>
-  <!-- INPUTS -->
+  <!-- ============ INPUT RAIL ============ -->
   <section class="card">
     <h2>Deal Inputs</h2>
     <label>Property address / deal name</label>
@@ -82,19 +96,39 @@ footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1240px;margi
       <div><label>Estimated repairs</label><input id="repairs" type="number" value="55000"></div>
     </div>
 
-    <h3>Buyer's Carry &amp; Transaction Costs</h3>
-    <div class="row">
-      <div><label>Hold period (months)</label><input id="months" type="number" value="5"></div>
-      <div><label>Holding cost / month</label><input id="holdmo" type="number" value="1400"></div>
+    <h4>Holding Costs</h4>
+    <label>Hold period (months)</label><input id="months" type="number" value="5">
+    <label>Entry method</label>
+    <div class="seg" id="holdMode">
+      <button data-v="dollar" class="on">$ / month</button>
+      <button data-v="pct">% of ARV / year</button>
+      <button data-v="item">Itemized</button>
     </div>
-    <div class="hint">Taxes, insurance, utilities, loan interest, lawn/security.</div>
-    <div class="row">
-      <div><label>Buy-side closing costs</label><input id="closeBuy" type="number" value="3500"></div>
-      <div><label>Sell-side costs (% of ARV)</label><input id="sellPct" type="number" step="0.1" value="8"></div>
+    <div id="holdDollar">
+      <label>Holding cost per month</label><input id="holdmo" type="number" value="1400">
     </div>
-    <div class="hint">Sell-side = agent commissions, title, seller concessions.</div>
+    <div id="holdPct" style="display:none">
+      <label>Annual holding burden (% of ARV)</label><input id="holdPctVal" type="number" step="0.1" value="5.9">
+      <div class="hint">Houston rule of thumb: ~2.4% taxes + ~1.1% insurance + utilities/lawn/interest.</div>
+    </div>
+    <div id="holdItem" style="display:none">
+      <div class="row">
+        <div><label>Property tax (% of ARV/yr)</label><input id="hTax" type="number" step="0.05" value="2.4"></div>
+        <div><label>Insurance (% of ARV/yr)</label><input id="hIns" type="number" step="0.05" value="1.1"></div>
+      </div>
+      <div class="row">
+        <div><label>Utilities + lawn / mo</label><input id="hUtil" type="number" value="260"></div>
+        <div><label>Other / mo (security, HOA)</label><input id="hOther" type="number" value="0"></div>
+      </div>
+      <div class="row">
+        <div><label>Hard money rate (%)</label><input id="hRate" type="number" step="0.25" value="11.5"></div>
+        <div><label>Loan amount financed</label><input id="hLoan" type="number" value="180000"></div>
+      </div>
+    </div>
+    <div class="calcline"><span>Holding cost per month</span><b id="holdMoOut">—</b></div>
+    <div class="calcline"><span>Total over <span id="holdMoLbl">5</span> months</span><b id="holdTotOut">—</b></div>
 
-    <h3>Buyer Return Requirement</h3>
+    <h4>Buyer Return Requirement</h4>
     <label>Method</label>
     <select id="method">
       <option value="pctARV">Target profit as % of ARV</option>
@@ -108,22 +142,19 @@ footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1240px;margi
     </div>
     <div class="hint" id="methodHint">Buyer must clear this margin after all costs.</div>
 
-    <h3>Sensitivity</h3>
+    <h4>Sensitivity</h4>
     <label>ARV / repair swing tested</label>
-    <select id="swing">
-      <option value="5">± 5%</option>
-      <option value="10" selected>± 10%</option>
-      <option value="both">± 5% and ± 10%</option>
-    </select>
+    <select id="swing"><option value="5">± 5%</option><option value="10" selected>± 10%</option><option value="both">± 5% and ± 10%</option></select>
 
     <div class="btns">
       <button class="primary" id="calc">Run underwriting</button>
       <button id="pdf">Export buyer PDF</button>
       <button id="reset">Reset</button>
     </div>
+    <div class="calcline" style="background:none;border-color:var(--line)"><span>Closing costs are set on the <b style="font-family:inherit">Closing Costs</b> tab</span></div>
   </section>
 
-  <!-- OUTPUTS -->
+  <!-- ============ OUTPUT ============ -->
   <div class="stack">
     <section class="card">
       <h2>Headline Numbers</h2>
@@ -131,39 +162,256 @@ footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1240px;margi
       <p class="mini" id="verdict" style="margin-top:16px"></p>
     </section>
 
-    <div class="split">
-      <section class="card">
-        <h2>Offer Waterfall</h2>
-        <table id="waterfall"></table>
-      </section>
-      <section class="card">
-        <h2>End-Buyer Deal Math</h2>
-        <table id="buyer"></table>
-      </section>
-    </div>
-
     <section class="card">
-      <h2>Sensitivity — Buyer Profit at Your Contract Price</h2>
-      <p class="mini" id="sensNote"></p>
-      <table class="grid-sens" id="sensProfit"></table>
-      <h2 style="margin-top:26px">Sensitivity — Max Allowable Offer</h2>
-      <table class="grid-sens" id="sensMao"></table>
+      <div class="tabs" id="tabs">
+        <button data-t="flip" class="on">Flip / Wholesale</button>
+        <button data-t="close">Closing Costs</button>
+        <button data-t="rent">Rental &amp; DSCR</button>
+        <button data-t="whole">Wholetail</button>
+        <button data-t="terms">Seller Finance</button>
+        <button data-t="sens">Sensitivity</button>
+      </div>
+
+      <!-- FLIP -->
+      <div class="pane on" data-p="flip">
+        <div class="split">
+          <div><h2>Offer Waterfall</h2><table id="waterfall"></table></div>
+          <div><h2>End-Buyer Deal Math</h2><table id="buyer"></table></div>
+        </div>
+      </div>
+
+      <!-- CLOSING COSTS -->
+      <div class="pane" data-p="close">
+        <h2>Closing Cost Builder</h2>
+        <p class="mini">Every line accepts a percentage or a flat dollar amount. Percentages are applied to the basis shown. Totals feed the MAO model directly.</p>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:14px">
+          <input type="checkbox" id="useItem" checked> <span style="color:var(--text);font-size:13.5px">Use itemized closing costs (uncheck to enter simple totals)</span>
+        </label>
+
+        <div id="itemBox">
+          <div class="split" style="margin-top:18px">
+            <div>
+              <h4 style="margin-top:0">Buy-Side (basis: purchase price)</h4>
+              <table id="buyClose"></table>
+            </div>
+            <div>
+              <h4 style="margin-top:0">Sell-Side (basis: resale price)</h4>
+              <table id="sellClose"></table>
+            </div>
+          </div>
+          <h4>Percentage Scratchpad</h4>
+          <div class="row3">
+            <div><label>Amount / basis</label><input id="spBase" type="number" value="285000"></div>
+            <div><label>Percentage</label><input id="spPct" type="number" step="0.05" value="2.5"></div>
+            <div><label>Or dollar amount</label><input id="spDol" type="number" value="7125"></div>
+          </div>
+          <div class="calcline"><span id="spOutA">—</span><b id="spOutB">—</b></div>
+        </div>
+
+        <div id="simpleBox" style="display:none;margin-top:18px">
+          <div class="row">
+            <div><label>Buy-side closing costs ($)</label><input id="closeBuySimple" type="number" value="3500"></div>
+            <div><label>Sell-side costs (% of resale)</label><input id="sellPctSimple" type="number" step="0.1" value="8"></div>
+          </div>
+        </div>
+        <div class="calcline" style="margin-top:16px"><span>Buy-side total</span><b id="ccBuyOut">—</b></div>
+        <div class="calcline"><span>Sell-side total (and % of resale)</span><b id="ccSellOut">—</b></div>
+        <div class="calcline"><span>Combined transaction cost</span><b id="ccAllOut">—</b></div>
+      </div>
+
+      <!-- RENTAL / DSCR -->
+      <div class="pane" data-p="rent">
+        <h2>Rental Exit — DSCR, Cash Flow &amp; BRRRR</h2>
+        <p class="mini">Tests whether a landlord or BRRRR buyer can pay your contract price. Assumes the property is rented after repairs are complete.</p>
+        <div class="row3" style="margin-top:14px">
+          <div><label>Market rent / month</label><input id="rRent" type="number" value="2150"></div>
+          <div><label>Vacancy (%)</label><input id="rVac" type="number" step="0.5" value="6"></div>
+          <div><label>Property mgmt (%)</label><input id="rMgmt" type="number" step="0.5" value="8"></div>
+        </div>
+        <div class="row3">
+          <div><label>Maintenance (% of rent)</label><input id="rMaint" type="number" step="0.5" value="6"></div>
+          <div><label>CapEx reserve (% of rent)</label><input id="rCap" type="number" step="0.5" value="5"></div>
+          <div><label>HOA + other / mo</label><input id="rOther" type="number" value="0"></div>
+        </div>
+        <div class="row3">
+          <div><label>Taxes (% of ARV / yr)</label><input id="rTax" type="number" step="0.05" value="2.4"></div>
+          <div><label>Insurance (% of ARV / yr)</label><input id="rIns" type="number" step="0.05" value="1.1"></div>
+          <div><label>Refi / DSCR loan LTV (%)</label><input id="rLtv" type="number" step="1" value="75"></div>
+        </div>
+        <div class="row3">
+          <div><label>Loan rate (%)</label><input id="rRate" type="number" step="0.125" value="7.25"></div>
+          <div><label>Amortization (years)</label><input id="rAmort" type="number" value="30"></div>
+          <div><label>Target DSCR</label><input id="rDscr" type="number" step="0.05" value="1.25"></div>
+        </div>
+        <div class="kpis" id="rentKpis" style="margin-top:20px"></div>
+        <div class="split" style="margin-top:22px">
+          <div><h2>Operating Statement</h2><table id="rentOps"></table></div>
+          <div><h2>BRRRR Capital Position</h2><table id="rentCap"></table></div>
+        </div>
+        <p class="mini" id="rentVerdict" style="margin-top:14px"></p>
+        <label class="inc"><input type="checkbox" id="incRent" checked> Include rental analysis in buyer PDF</label>
+      </div>
+
+      <!-- WHOLETAIL -->
+      <div class="pane" data-p="whole">
+        <h2>Wholetail Exit — Light Rehab, MLS Resale</h2>
+        <p class="mini">Compares assigning the contract for a fee against closing on it yourself, doing cosmetic work, and listing it.</p>
+        <div class="row3" style="margin-top:14px">
+          <div><label>Wholetail sale price (% of ARV)</label><input id="wPct" type="number" step="0.5" value="82"></div>
+          <div><label>Cosmetic scope budget</label><input id="wRepair" type="number" value="14000"></div>
+          <div><label>Days to close + sell</label><input id="wDays" type="number" value="75"></div>
+        </div>
+        <div id="wCaution"></div>
+        <div class="row3">
+          <div><label>Listing commission (%)</label><input id="wComm" type="number" step="0.25" value="5"></div>
+          <div><label>Seller concessions (%)</label><input id="wConc" type="number" step="0.25" value="1.5"></div>
+          <div><label>Your purchase price</label><input id="wBuy" type="number" value="0"><div class="hint">0 = use MAO</div></div>
+        </div>
+        <div class="kpis" id="wholeKpis" style="margin-top:20px"></div>
+        <div class="split" style="margin-top:22px">
+          <div><h2>Wholetail P&amp;L</h2><table id="wholeTbl"></table></div>
+          <div><h2>Exit Comparison</h2><table id="exitCompare"></table></div>
+        </div>
+        <p class="mini" id="wholeVerdict" style="margin-top:14px"></p>
+        <label class="inc"><input type="checkbox" id="incWhole"> Include wholetail comparison in buyer PDF</label>
+      </div>
+
+      <!-- SELLER FINANCE -->
+      <div class="pane" data-p="terms">
+        <h2>Seller Finance &amp; Wrap Terms</h2>
+        <p class="mini">Left column: buying on terms from the seller. Right column: carrying a note when you sell. Wrap spread is the difference.</p>
+        <div class="split" style="margin-top:16px">
+          <div>
+            <h4 style="margin-top:0">You Buy On Terms</h4>
+            <div class="row">
+              <div><label>Purchase price</label><input id="tPrice" type="number" value="185000"></div>
+              <div><label>Down payment</label><input id="tDown" type="number" value="15000"></div>
+            </div>
+            <div class="row3">
+              <div><label>Rate (%)</label><input id="tRate" type="number" step="0.25" value="5"></div>
+              <div><label>Amort (yrs)</label><input id="tAmort" type="number" value="30"></div>
+              <div><label>Balloon (mo)</label><input id="tBalloon" type="number" value="60"></div>
+            </div>
+            <h4>Underlying Loan (wrap only)</h4>
+            <div class="row3">
+              <div><label>Balance</label><input id="uBal" type="number" value="0"></div>
+              <div><label>Payment / mo</label><input id="uPmt" type="number" value="0"></div>
+              <div><label>Rate (%)</label><input id="uRate" type="number" step="0.25" value="3.5"></div>
+            </div>
+            <div class="hint">Leave balance at 0 for a free-and-clear seller carry.</div>
+          </div>
+          <div>
+            <h4 style="margin-top:0">You Sell On Terms</h4>
+            <div class="row">
+              <div><label>Sale price to end buyer</label><input id="sPrice" type="number" value="299000"></div>
+              <div><label>Down payment collected</label><input id="sDown" type="number" value="29900"></div>
+            </div>
+            <div class="row3">
+              <div><label>Rate (%)</label><input id="sRate" type="number" step="0.25" value="8.5"></div>
+              <div><label>Amort (yrs)</label><input id="sAmort" type="number" value="30"></div>
+              <div><label>Balloon (mo)</label><input id="sBalloon" type="number" value="60"></div>
+            </div>
+            <label>Note buyer's discount rate (%) — for present value</label>
+            <input id="sDisc" type="number" step="0.25" value="12">
+            <div class="hint">What a note fund would pay you today for the remaining payments.</div>
+          </div>
+        </div>
+        <div class="kpis" id="termsKpis" style="margin-top:22px"></div>
+        <div class="split" style="margin-top:22px">
+          <div><h2>Payment &amp; Wrap Spread</h2><table id="termsTbl"></table></div>
+          <div><h2>Note Economics</h2><table id="noteTbl"></table></div>
+        </div>
+        <p class="mini" id="termsVerdict" style="margin-top:14px"></p>
+        <label class="inc"><input type="checkbox" id="incTerms"> Include seller-finance terms in buyer PDF</label>
+      </div>
+
+      <!-- SENSITIVITY -->
+      <div class="pane" data-p="sens">
+        <h2>Sensitivity — Buyer Profit at Your Contract Price</h2>
+        <p class="mini" id="sensNote"></p>
+        <table class="grid-sens" id="sensProfit"></table>
+        <h2 style="margin-top:26px">Sensitivity — Max Allowable Offer</h2>
+        <table class="grid-sens" id="sensMao"></table>
+      </div>
     </section>
   </div>
 </main>
-<footer>Underwriting tool for internal use. Figures are estimates based on the inputs above and are not an appraisal, loan commitment, or guarantee of profit.</footer>
+<footer>Underwriting tool for internal use. Figures are estimates based on the inputs above and are not an appraisal, inspection, loan commitment, or guarantee of profit.</footer>
 
 <script>
 const $ = id => document.getElementById(id);
-const money = v => (v<0?"-":"") + "$" + Math.abs(Math.round(v)).toLocaleString();
-const pct = v => (v*100).toFixed(1) + "%";
+const money = v => (!isFinite(v)?"—":(v<0?"-":"") + "$" + Math.abs(Math.round(v)).toLocaleString());
+const pct = v => (!isFinite(v)?"—":(v*100).toFixed(1) + "%");
 const num = id => parseFloat($(id).value) || 0;
+const pmt = (P,rate,years) => { const r=rate/100/12, n=years*12; if(!n) return 0; return r===0 ? P/n : P*r/(1-Math.pow(1+r,-n)); };
+const balAfter = (P,rate,years,mo) => { const r=rate/100/12,n=years*12; if(r===0) return Math.max(0,P*(1-mo/n)); const m=pmt(P,rate,years); return Math.max(0,P*Math.pow(1+r,mo) - m*(Math.pow(1+r,mo)-1)/r); };
+const pv = (m,rate,mo) => { const r=rate/100/12; return r===0? m*mo : m*(1-Math.pow(1+r,-mo))/r; };
 
+/* ---------- closing cost model ---------- */
+const CC = {
+  buy:[["Title / escrow fee","pct",0.6],["Owner's policy share","pct",0.35],["Lender points / origination","pct",1.0],
+       ["Survey","dol",550],["Appraisal / inspections","dol",900],["Doc prep, recording, courier","dol",425],["Tax & insurance proration","pct",0.4]],
+  sell:[["Listing commission","pct",3.0],["Buyer agent commission","pct",2.5],["Title / escrow","pct",0.9],
+        ["Seller concessions","pct",1.5],["Tax proration","pct",0.5],["Closing / doc fees","dol",600]]
+};
+let ccState = null;
+function initCC(){
+  ccState = {buy:CC.buy.map(r=>({name:r[0],mode:r[1],pct:r[1]==="pct"?r[2]:0,dol:r[1]==="dol"?r[2]:0})),
+             sell:CC.sell.map(r=>({name:r[0],mode:r[1],pct:r[1]==="pct"?r[2]:0,dol:r[1]==="dol"?r[2]:0}))};
+}
+function ccTotal(side, basis){
+  return ccState[side].reduce((s,r)=> s + (r.mode==="pct" ? basis*r.pct/100 : r.dol), 0);
+}
+function renderCC(){
+  const {b} = LAST||{}; const buyBasis = b? b.buyerMax : num("arv")*0.55, sellBasis = num("arv");
+  const editing = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.cc;
+  if(editing){ ccTotals(buyBasis,sellBasis); return; }
+  ["buy","sell"].forEach(side=>{
+    const basis = side==="buy"?buyBasis:sellBasis;
+    $(side+"Close").innerHTML = `<thead><tr><th>Line item</th><th>Basis</th><th class="num">Rate / $</th><th class="num">Amount</th></tr></thead><tbody>`+
+      ccState[side].map((r,idx)=>`<tr><td>${r.name}</td>
+        <td><select data-cc="${side}" data-i="${idx}" data-f="mode" style="padding:4px 6px;font-size:12px">
+          <option value="pct"${r.mode==="pct"?" selected":""}>%</option><option value="dol"${r.mode==="dol"?" selected":""}>$</option></select></td>
+        <td class="num"><input data-cc="${side}" data-i="${idx}" data-f="${r.mode==="pct"?"pct":"dol"}" type="number" step="${r.mode==="pct"?0.05:25}"
+          value="${r.mode==="pct"?r.pct:r.dol}" style="padding:4px 6px;font-size:12.5px;text-align:right"></td>
+        <td class="num">${money(r.mode==="pct"?basis*r.pct/100:r.dol)}</td></tr>`).join("")+
+      `<tr class="total"><td>Total</td><td></td><td class="num">${pct(ccTotal(side,basis)/(basis||1))} of ${side==="buy"?"purchase":"resale"}</td>
+        <td class="num">${money(ccTotal(side,basis))}</td></tr></tbody>`;
+  });
+  document.querySelectorAll("[data-cc]").forEach(el=>el.addEventListener("input",e=>{
+    const t=e.target, r=ccState[t.dataset.cc][+t.dataset.i];
+    if(t.dataset.f==="mode"){ r.mode=t.value; t.blur(); } else { r[t.dataset.f]=parseFloat(t.value)||0; }
+    run();
+  }));
+  ccTotals(buyBasis,sellBasis);
+}
+function ccTotals(buyBasis,sellBasis){
+  const bT = closeBuyAmt(buyBasis), sT = sellCostAmt(sellBasis);
+  $("ccBuyOut").textContent = money(bT);
+  $("ccSellOut").textContent = money(sT)+"  ("+pct(sT/(sellBasis||1))+")";
+  $("ccAllOut").textContent = money(bT+sT);
+  // scratchpad
+  const sb=num("spBase");
+  $("spOutA").textContent = `${num("spPct")}% of ${money(sb)}  •  ${money(num("spDol"))} of ${money(sb)} =`;
+  $("spOutB").textContent = `${money(sb*num("spPct")/100)}   |   ${sb?pct(num("spDol")/sb):"—"}`;
+}
+function closeBuyAmt(basis){ return $("useItem").checked ? ccTotal("buy",basis) : num("closeBuySimple"); }
+function sellCostAmt(basis){ return $("useItem").checked ? ccTotal("sell",basis) : basis*num("sellPctSimple")/100; }
+
+/* ---------- holding cost ---------- */
+let holdMode="dollar";
+function holdMonthly(arv){
+  if(holdMode==="dollar") return num("holdmo");
+  if(holdMode==="pct") return arv*num("holdPctVal")/100/12;
+  return arv*num("hTax")/100/12 + arv*num("hIns")/100/12 + num("hUtil") + num("hOther") + num("hLoan")*num("hRate")/100/12;
+}
+
+/* ---------- core engine ---------- */
 const methodLabels = {
   pctARV:["Target profit (% of ARV)","Buyer must clear this margin after all costs. 10–20% is typical for flippers."],
   dollar:["Target profit ($)","Fixed dollar profit the buyer demands regardless of price point."],
   roi:["Target return on cash (%)","Profit ÷ cash invested (purchase + repairs + holding + buy closing). Assumes all-cash."],
-  rule:["Rule percentage (% of ARV)","Classic shortcut: Buyer max price = ARV × % − repairs. Ignores your other cost inputs."]
+  rule:["Rule percentage (% of ARV)","Classic shortcut: buyer max price = ARV × % − repairs. Ignores your other cost inputs."]
 };
 $("method").addEventListener("change",()=>{
   const [l,h]=methodLabels[$("method").value];
@@ -172,41 +420,46 @@ $("method").addEventListener("change",()=>{
   run();
 });
 
-// Core engine -----------------------------------------------------
 function underwrite(arv, repairs, i){
   const holding = i.months * i.holdmo;
-  const sellCosts = arv * i.sellPct/100;
-  const softCosts = holding + i.closeBuy + sellCosts;
-  let buyerMax, required;
-  if(i.method==="rule"){
-    buyerMax = arv*(i.reqVal/100) - repairs;
-    required = arv - repairs - softCosts - buyerMax;
-  } else if(i.method==="roi"){
-    // profit = ARV - (P+repairs+holding+closeBuy+sell); cash = P+repairs+holding+closeBuy
-    // require profit = r*cash  ->  ARV - C - sell = r*C, C = P+repairs+holding+closeBuy
-    const r = i.reqVal/100;
-    const C = (arv - sellCosts)/(1+r);
-    buyerMax = C - repairs - holding - i.closeBuy;
-    required = r*C;
-  } else {
-    required = i.method==="dollar" ? i.reqVal : arv*(i.reqVal/100);
-    buyerMax = arv - repairs - softCosts - required;
+  const sellCosts = sellCostAmt(arv);
+  let buyerMax, required, closeBuy;
+  // buy-side closing depends on price; iterate twice to converge
+  closeBuy = closeBuyAmt(arv*0.55);
+  for(let k=0;k<4;k++){
+    const soft = holding + closeBuy + sellCosts;
+    if(i.method==="rule"){
+      buyerMax = arv*(i.reqVal/100) - repairs;
+      required = arv - repairs - soft - buyerMax;
+    } else if(i.method==="roi"){
+      const r = i.reqVal/100, C = (arv - sellCosts)/(1+r);
+      buyerMax = C - repairs - holding - closeBuy; required = r*C;
+    } else {
+      required = i.method==="dollar" ? i.reqVal : arv*(i.reqVal/100);
+      buyerMax = arv - repairs - soft - required;
+    }
+    closeBuy = closeBuyAmt(buyerMax);
   }
   const mao = buyerMax - i.fee;
-  const buyerCash = buyerMax + repairs + holding + i.closeBuy;
+  const buyerCash = buyerMax + repairs + holding + closeBuy;
   const profit = arv - buyerCash - sellCosts;
-  return {arv,repairs,holding,sellCosts,softCosts,buyerMax,mao,required,buyerCash,profit,
+  return {arv,repairs,holding,sellCosts,closeBuy,buyerMax,mao,required,buyerCash,profit,
     margin: arv?profit/arv:0, roi: buyerCash?profit/buyerCash:0, allIn: buyerCash + sellCosts};
 }
 function inputs(){
-  return {months:num("months"),holdmo:num("holdmo"),closeBuy:num("closeBuy"),sellPct:num("sellPct"),
-    fee:num("fee"),method:$("method").value,reqVal:num("reqVal"),addr:$("addr").value};
+  return {months:num("months"),holdmo:holdMonthly(num("arv")),fee:num("fee"),
+    method:$("method").value,reqVal:num("reqVal"),addr:$("addr").value};
 }
-function tone(margin){ return margin>=0.15?"good":margin>=0.10?"warn":"bad"; }
+const tone = m => m>=0.15?"good":m>=0.10?"warn":"bad";
 
-let LAST = null;
+let LAST=null;
 function run(){
-  const i = inputs(), arv = num("arv"), rep = num("repairs");
+  const arv=num("arv"), rep=num("repairs"), i=inputs();
+  const hm = holdMonthly(arv);
+  $("holdMoOut").textContent = money(hm);
+  $("holdMoLbl").textContent = num("months");
+  $("holdTotOut").textContent = money(hm*num("months"));
+
   const b = underwrite(arv, rep, i);
   LAST = {i,b,arv,rep};
 
@@ -222,8 +475,7 @@ function run(){
      <div class="mini">${money(b.allIn)} total exposure</div></div>`;
 
   const badge = t==="good"?'<span class="badge b-good">Strong spread</span>':
-                t==="warn"?'<span class="badge b-warn">Thin — negotiate</span>':
-                           '<span class="badge b-bad">Below buyer threshold</span>';
+                t==="warn"?'<span class="badge b-warn">Thin — negotiate</span>':'<span class="badge b-bad">Below buyer threshold</span>';
   $("verdict").innerHTML = `${badge} Contract at <strong>${money(b.mao)}</strong> or below to keep a ${money(i.fee)} fee intact.
     Every $1,000 over MAO comes directly out of your fee or the buyer's margin.
     Breakeven contract price (zero fee): <strong>${money(b.buyerMax)}</strong>.`;
@@ -233,43 +485,214 @@ function run(){
    <tr><td>After Repair Value</td><td class="num">${money(arv)}</td></tr>
    <tr><td>Less estimated repairs</td><td class="num">${money(-rep)}</td></tr>
    <tr><td>Less holding costs (${i.months} mo × ${money(i.holdmo)})</td><td class="num">${money(-b.holding)}</td></tr>
-   <tr><td>Less buy-side closing</td><td class="num">${money(-i.closeBuy)}</td></tr>
-   <tr><td>Less sell-side costs (${i.sellPct}% of ARV)</td><td class="num">${money(-b.sellCosts)}</td></tr>
+   <tr><td>Less buy-side closing</td><td class="num">${money(-b.closeBuy)}</td></tr>
+   <tr><td>Less sell-side costs (${pct(b.sellCosts/(arv||1))} of resale)</td><td class="num">${money(-b.sellCosts)}</td></tr>
    <tr><td>Less required buyer profit</td><td class="num">${money(-b.required)}</td></tr>
    <tr class="total"><td>End-buyer maximum price</td><td class="num">${money(b.buyerMax)}</td></tr>
    <tr><td>Less your wholesale fee</td><td class="num">${money(-i.fee)}</td></tr>
-   <tr class="total"><td>Maximum Allowable Offer</td><td class="num">${money(b.mao)}</td></tr>
-   </tbody>`;
+   <tr class="total"><td>Maximum Allowable Offer</td><td class="num">${money(b.mao)}</td></tr></tbody>`;
 
   $("buyer").innerHTML = `
    <thead><tr><th>End-buyer position</th><th class="num">Amount</th></tr></thead><tbody>
    <tr><td>Purchase price paid to you</td><td class="num">${money(b.buyerMax)}</td></tr>
    <tr><td>Repairs</td><td class="num">${money(rep)}</td></tr>
    <tr><td>Holding costs</td><td class="num">${money(b.holding)}</td></tr>
-   <tr><td>Buy-side closing</td><td class="num">${money(i.closeBuy)}</td></tr>
+   <tr><td>Buy-side closing</td><td class="num">${money(b.closeBuy)}</td></tr>
    <tr class="total"><td>Cash invested</td><td class="num">${money(b.buyerCash)}</td></tr>
    <tr><td>Sell-side costs</td><td class="num">${money(b.sellCosts)}</td></tr>
    <tr><td>Resale at ARV</td><td class="num">${money(arv)}</td></tr>
    <tr class="total"><td>Projected profit</td><td class="num">${money(b.profit)}</td></tr>
-   <tr><td>Profit margin on ARV / ROI on cash</td><td class="num">${pct(b.margin)} / ${pct(b.roi)}</td></tr>
-   </tbody>`;
+   <tr class="sub"><td>Profit margin on ARV / ROI on cash</td><td class="num">${pct(b.margin)} / ${pct(b.roi)}</td></tr></tbody>`;
 
-  buildSensitivity();
+  renderCC(); buildSensitivity(); rental(); wholetail(); terms();
 }
 
-function swings(){
-  const s = $("swing").value;
-  return s==="both" ? [-10,-5,0,5,10] : [-parseInt(s),0,parseInt(s)];
+/* ---------- rental / DSCR ---------- */
+function rentalModel(){
+  const {b,arv,rep} = LAST;
+  const gsi = num("rRent")*12;
+  const vac = gsi*num("rVac")/100;
+  const egi = gsi - vac;
+  const mgmt = egi*num("rMgmt")/100, maint = gsi*num("rMaint")/100, capex = gsi*num("rCap")/100;
+  const tax = arv*num("rTax")/100, ins = arv*num("rIns")/100, other = num("rOther")*12;
+  const opex = mgmt+maint+capex+tax+ins+other;
+  const noi = egi - opex;
+  const loan = arv*num("rLtv")/100;
+  const p = pmt(loan,num("rRate"),num("rAmort")), ads = p*12;
+  const dscr = ads? noi/ads : Infinity;
+  const factor = pmt(1,num("rRate"),num("rAmort"))*12;
+  const maxLoan = factor? (noi/num("rDscr"))/factor : 0;
+  const allIn = b.buyerMax + rep + b.holding + b.closeBuy;
+  const cashLeft = allIn - loan;
+  const cashFlow = noi/12 - p;
+  return {gsi,vac,egi,mgmt,maint,capex,tax,ins,other,opex,noi,loan,p,ads,dscr,maxLoan,allIn,cashLeft,cashFlow,
+    cap: allIn? noi/allIn : 0, capArv: arv? noi/arv:0, coc: cashLeft>0? cashFlow*12/cashLeft : Infinity,
+    onePct: num("rRent")/(b.buyerMax||1)};
 }
+function rental(){
+  const r = rentalModel(), {b,arv} = LAST;
+  const dt = r.dscr>=1.25?"good":r.dscr>=1.1?"warn":"bad";
+  const ct = r.cashFlow>=200?"good":r.cashFlow>=0?"warn":"bad";
+  $("rentKpis").innerHTML = `
+   <div class="kpi hero"><div class="k">DSCR at ${num("rLtv")}% LTV</div><div class="v" style="color:var(--${dt})">${r.dscr.toFixed(2)}</div>
+     <div class="mini">Target ${num("rDscr").toFixed(2)}</div></div>
+   <div class="kpi"><div class="k">Monthly cash flow</div><div class="v" style="color:var(--${ct})">${money(r.cashFlow)}</div>
+     <div class="mini">${money(r.cashFlow*12)} / yr</div></div>
+   <div class="kpi"><div class="k">Cap rate on all-in</div><div class="v">${pct(r.cap)}</div>
+     <div class="mini">${pct(r.capArv)} on ARV</div></div>
+   <div class="kpi"><div class="k">Cash left in after refi</div><div class="v">${money(r.cashLeft)}</div>
+     <div class="mini">${r.cashLeft<=0?"Full capital recycled":r.cashFlow<0?"Negative cash flow":"CoC "+pct(r.coc)}</div></div>`;
+  $("rentOps").innerHTML = `<thead><tr><th>Annual operating</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>Gross scheduled rent</td><td class="num">${money(r.gsi)}</td></tr>
+   <tr><td>Vacancy (${num("rVac")}%)</td><td class="num">${money(-r.vac)}</td></tr>
+   <tr class="total"><td>Effective gross income</td><td class="num">${money(r.egi)}</td></tr>
+   <tr><td>Management (${num("rMgmt")}%)</td><td class="num">${money(-r.mgmt)}</td></tr>
+   <tr><td>Maintenance + CapEx</td><td class="num">${money(-(r.maint+r.capex))}</td></tr>
+   <tr><td>Property tax (${num("rTax")}% of ARV)</td><td class="num">${money(-r.tax)}</td></tr>
+   <tr><td>Insurance (${num("rIns")}% of ARV)</td><td class="num">${money(-r.ins)}</td></tr>
+   <tr><td>HOA / other</td><td class="num">${money(-r.other)}</td></tr>
+   <tr class="total"><td>Net operating income</td><td class="num">${money(r.noi)}</td></tr>
+   <tr><td>Annual debt service</td><td class="num">${money(-r.ads)}</td></tr>
+   <tr class="total"><td>Annual cash flow</td><td class="num">${money(r.noi-r.ads)}</td></tr></tbody>`;
+  $("rentCap").innerHTML = `<thead><tr><th>BRRRR capital</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>Purchase price paid to you</td><td class="num">${money(b.buyerMax)}</td></tr>
+   <tr><td>Repairs + holding + closing</td><td class="num">${money(r.allIn-b.buyerMax)}</td></tr>
+   <tr class="total"><td>All-in basis</td><td class="num">${money(r.allIn)}</td></tr>
+   <tr><td>Refi loan at ${num("rLtv")}% of ARV</td><td class="num">${money(-r.loan)}</td></tr>
+   <tr class="total"><td>Cash left in deal</td><td class="num">${money(r.cashLeft)}</td></tr>
+   <tr><td>Monthly P&amp;I</td><td class="num">${money(r.p)}</td></tr>
+   <tr><td>Max loan supported at ${num("rDscr").toFixed(2)} DSCR</td><td class="num">${money(r.maxLoan)}</td></tr>
+   <tr class="sub"><td>Rent-to-price (1% rule)</td><td class="num">${pct(r.onePct)}</td></tr>
+   <tr class="sub"><td>All-in as % of ARV</td><td class="num">${pct(r.allIn/(arv||1))}</td></tr></tbody>`;
+  const eq = arv - r.allIn;
+  $("rentVerdict").innerHTML = r.dscr>=num("rDscr")
+    ? `<span class="badge b-good">Lender-ready</span> At ${money(b.buyerMax)} the deal debt-services at ${r.dscr.toFixed(2)}, above the ${num("rDscr").toFixed(2)} threshold, with ${money(eq)} of day-one equity. Pitch this to buy-and-hold and BRRRR buyers, not just flippers.`
+    : `<span class="badge b-bad">DSCR short</span> ${r.dscr.toFixed(2)} is under the ${num("rDscr").toFixed(2)} threshold — a DSCR lender caps the loan near ${money(r.maxLoan)}. The hold buyer needs a lower price, more down payment, or higher rent to make this work.`;
+}
+
+/* ---------- wholetail ---------- */
+function wholetailModel(){
+  const {b,arv,i,rep} = LAST;
+  const price = arv*num("wPct")/100;
+  const buy = num("wBuy")>0 ? num("wBuy") : b.mao;
+  const months = num("wDays")/30.4;
+  const holding = months*i.holdmo;
+  const closeBuy = closeBuyAmt(buy);
+  const comm = price*num("wComm")/100, conc = price*num("wConc")/100;
+  const titleSell = price*0.009 + 600;
+  const cash = buy + num("wRepair") + holding + closeBuy;
+  const net = price - comm - conc - titleSell;
+  const profit = net - cash;
+  const deferred = Math.max(0, rep - num("wRepair"));
+  const impliedPrice = arv - deferred*1.25;
+  return {price,buy,holding,closeBuy,comm,conc,titleSell,cash,net,profit,months,deferred,impliedPrice,
+    impliedPct: arv? impliedPrice/arv*100 : 0,
+    margin: price?profit/price:0, roi: cash?profit/cash:0, annual: cash&&months? (profit/cash)*(12/months):0};
+}
+function wholetail(){
+  const w = wholetailModel(), {b,i,arv,rep} = LAST;
+  if(w.deferred > 1000 && num("wPct") > w.impliedPct + 1.5){
+    $("wCaution").innerHTML = `<div class="calcline" style="background:rgba(229,165,75,.12);border-color:rgba(229,165,75,.4)">
+      <span>${money(w.deferred)} of the ${money(rep)} scope is left undone — buyers discount deferred work at roughly 1.25×.
+      Defensible list price ≈ <b>${money(w.impliedPrice)}</b> (${w.impliedPct.toFixed(1)}% of ARV).</span>
+      <button id="wUse" style="padding:4px 10px;font-size:12px">Use it</button></div>`;
+    $("wUse").onclick = ()=>{ $("wPct").value = w.impliedPct.toFixed(1); run(); };
+  } else $("wCaution").innerHTML = "";
+  const t = w.profit>=i.fee*1.75?"good":w.profit>=i.fee?"warn":"bad";
+  $("wholeKpis").innerHTML = `
+   <div class="kpi hero"><div class="k">Wholetail net profit</div><div class="v" style="color:var(--${t})">${money(w.profit)}</div>
+     <div class="mini">vs ${money(i.fee)} assignment fee</div></div>
+   <div class="kpi"><div class="k">Cash required</div><div class="v">${money(w.cash)}</div>
+     <div class="mini">${w.months.toFixed(1)} months exposed</div></div>
+   <div class="kpi"><div class="k">Return on cash</div><div class="v">${pct(w.roi)}</div>
+     <div class="mini">${pct(w.annual)} annualized</div></div>
+   <div class="kpi"><div class="k">List price</div><div class="v">${money(w.price)}</div>
+     <div class="mini">${num("wPct")}% of ARV</div></div>`;
+  $("wholeTbl").innerHTML = `<thead><tr><th>Wholetail P&amp;L</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>MLS sale price</td><td class="num">${money(w.price)}</td></tr>
+   <tr><td>Commission (${num("wComm")}%)</td><td class="num">${money(-w.comm)}</td></tr>
+   <tr><td>Concessions (${num("wConc")}%)</td><td class="num">${money(-w.conc)}</td></tr>
+   <tr><td>Title + closing at sale</td><td class="num">${money(-w.titleSell)}</td></tr>
+   <tr class="total"><td>Net proceeds</td><td class="num">${money(w.net)}</td></tr>
+   <tr><td>Your purchase price</td><td class="num">${money(-w.buy)}</td></tr>
+   <tr><td>Cosmetic scope</td><td class="num">${money(-num("wRepair"))}</td></tr>
+   <tr><td>Holding (${w.months.toFixed(1)} mo)</td><td class="num">${money(-w.holding)}</td></tr>
+   <tr><td>Buy-side closing</td><td class="num">${money(-w.closeBuy)}</td></tr>
+   <tr class="total"><td>Net profit</td><td class="num">${money(w.profit)}</td></tr></tbody>`;
+  const rows = [["Assign the contract",i.fee,0,0.25],["Wholetail (light rehab + MLS)",w.profit,w.cash,w.months],
+                ["Sell to flipper at MAO + fee",i.fee,0,0.25]];
+  $("exitCompare").innerHTML = `<thead><tr><th>Exit</th><th class="num">Profit</th><th class="num">Cash in</th><th class="num">Months</th></tr></thead><tbody>`+
+    rows.slice(0,2).map(r=>`<tr><td>${r[0]}</td><td class="num">${money(r[1])}</td><td class="num">${money(r[2])}</td><td class="num">${r[3].toFixed(1)}</td></tr>`).join("")+
+    `<tr class="total"><td>Wholetail premium over assigning</td><td class="num">${money(w.profit-i.fee)}</td><td class="num">${money(w.cash)}</td><td class="num">+${(w.months-0.25).toFixed(1)}</td></tr></tbody>`;
+  $("wholeVerdict").innerHTML = w.profit>i.fee
+    ? `<span class="badge b-${t}">Wholetail adds ${money(w.profit-i.fee)}</span> You tie up ${money(w.cash)} for ${w.months.toFixed(1)} months to earn ${money(w.profit-i.fee)} more than assigning — an annualized ${pct(w.annual)} on the capital. Worth it only if the extra dollars beat what that cash earns on your next contract.`
+    : `<span class="badge b-bad">Assign it</span> Wholetailing nets ${money(w.profit)} against a ${money(i.fee)} fee with zero capital at risk. Take the assignment.`;
+}
+
+/* ---------- seller finance ---------- */
+function termsModel(){
+  const bal = num("tPrice")-num("tDown");
+  const p = pmt(bal,num("tRate"),num("tAmort"));
+  const balloonBal = balAfter(bal,num("tRate"),num("tAmort"),num("tBalloon"));
+  const uPmt = num("uPmt"), wrapped = num("uBal")>0;
+  const sBal = num("sPrice")-num("sDown");
+  const sP = pmt(sBal,num("sRate"),num("sAmort"));
+  const sBalloon = balAfter(sBal,num("sRate"),num("sAmort"),num("sBalloon"));
+  const spread = sP - (wrapped ? uPmt : p);
+  const interestPaid = p*num("tBalloon") - (bal - balloonBal);
+  const interestEarned = sP*num("sBalloon") - (sBal - sBalloon);
+  const notePV = pv(sP,num("sDisc"),num("sBalloon")) + sBalloon/Math.pow(1+num("sDisc")/100/12,num("sBalloon"));
+  const cashToClose = num("tDown") + closeBuyAmt(num("tPrice"));
+  const dayOne = num("sDown") - cashToClose;
+  return {bal,p,balloonBal,sBal,sP,sBalloon,spread,interestPaid,interestEarned,notePV,cashToClose,dayOne,wrapped,uPmt,
+    equitySpread: num("sPrice")-num("tPrice"), totalProfit: dayOne + spread*num("sBalloon") + (sBalloon - balloonBal)};
+}
+function terms(){
+  const t = termsModel();
+  const st = t.spread>=300?"good":t.spread>=0?"warn":"bad";
+  $("termsKpis").innerHTML = `
+   <div class="kpi hero"><div class="k">Monthly wrap spread</div><div class="v" style="color:var(--${st})">${money(t.spread)}</div>
+     <div class="mini">${money(t.spread*12)} / yr</div></div>
+   <div class="kpi"><div class="k">Day-one cash</div><div class="v" style="color:var(--${t.dayOne>=0?'good':'bad'})">${money(t.dayOne)}</div>
+     <div class="mini">Down collected − cash to close</div></div>
+   <div class="kpi"><div class="k">Price spread</div><div class="v">${money(t.equitySpread)}</div>
+     <div class="mini">Sell ${money(num("sPrice"))} / buy ${money(num("tPrice"))}</div></div>
+   <div class="kpi"><div class="k">Note value today</div><div class="v">${money(t.notePV)}</div>
+     <div class="mini">At ${num("sDisc")}% discount rate</div></div>`;
+  $("termsTbl").innerHTML = `<thead><tr><th>Payment structure</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>Your note to seller (${money(t.bal)} @ ${num("tRate")}%)</td><td class="num">${money(t.p)}/mo</td></tr>
+   ${t.wrapped?`<tr><td>Underlying loan payment (wrapped)</td><td class="num">${money(t.uPmt)}/mo</td></tr>
+   <tr class="sub"><td>Underlying balance @ ${num("uRate")}%</td><td class="num">${money(num("uBal"))}</td></tr>`:""}
+   <tr><td>Buyer's note to you (${money(t.sBal)} @ ${num("sRate")}%)</td><td class="num">${money(t.sP)}/mo</td></tr>
+   <tr class="total"><td>Net monthly spread</td><td class="num">${money(t.spread)}</td></tr>
+   <tr><td>Cash to close your purchase</td><td class="num">${money(t.cashToClose)}</td></tr>
+   <tr><td>Down payment collected</td><td class="num">${money(num("sDown"))}</td></tr>
+   <tr class="total"><td>Day-one cash position</td><td class="num">${money(t.dayOne)}</td></tr></tbody>`;
+  $("noteTbl").innerHTML = `<thead><tr><th>Note economics</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>Your balloon owed at month ${num("tBalloon")}</td><td class="num">${money(t.balloonBal)}</td></tr>
+   <tr><td>Buyer's balloon owed at month ${num("sBalloon")}</td><td class="num">${money(t.sBalloon)}</td></tr>
+   <tr class="total"><td>Back-end balance spread</td><td class="num">${money(t.sBalloon-t.balloonBal)}</td></tr>
+   <tr><td>Interest you pay to balloon</td><td class="num">${money(t.interestPaid)}</td></tr>
+   <tr><td>Interest you collect to balloon</td><td class="num">${money(t.interestEarned)}</td></tr>
+   <tr><td>Spread collected over ${num("sBalloon")} mo</td><td class="num">${money(t.spread*num("sBalloon"))}</td></tr>
+   <tr class="total"><td>Total profit through balloon</td><td class="num">${money(t.totalProfit)}</td></tr>
+   <tr class="sub"><td>Note sale value today (${num("sDisc")}% yield)</td><td class="num">${money(t.notePV)}</td></tr>
+   <tr class="sub"><td>Discount to face</td><td class="num">${money(t.notePV-t.sBal)}</td></tr></tbody>`;
+  $("termsVerdict").innerHTML = t.spread>=0
+    ? `<span class="badge b-${st}">Spread works</span> ${money(t.spread)}/mo of arbitrage plus ${money(t.sBalloon-t.balloonBal)} of back-end balance spread, ${money(t.totalProfit)} total through the balloon. ${t.wrapped?"This wraps an existing loan — confirm the due-on-sale exposure and keep the underlying current through a servicer.":"Free-and-clear carry, no due-on-sale risk."}`
+    : `<span class="badge b-bad">Negative spread</span> You would pay ${money(-t.spread)}/mo out of pocket. Raise the sale rate or price, lower your purchase rate, or collect a larger down payment.`;
+}
+
+/* ---------- sensitivity ---------- */
+function swings(){ const s=$("swing").value; return s==="both"?[-10,-5,0,5,10]:[-parseInt(s),0,parseInt(s)]; }
 function sensData(){
   const {i,arv,rep,b} = LAST, s = swings();
   const cols = s.map(x=>({label:x===0?"Base repairs":(x>0?"+":"")+x+"% repairs", mult:1+x/100}));
   const rows = s.slice().reverse().map(x=>({label:x===0?"Base ARV":(x>0?"+":"")+x+"% ARV", mult:1+x/100}));
   const grid = rows.map(r=>cols.map(c=>{
     const u = underwrite(arv*r.mult, rep*c.mult, i);
-    // profit to buyer if wholesaler holds contract at base MAO and same fee
-    const price = b.mao + i.fee;
-    const cash = price + rep*c.mult + u.holding + i.closeBuy;
+    const price = b.buyerMax;
+    const cash = price + rep*c.mult + u.holding + u.closeBuy;
     const profitAtBase = arv*r.mult - cash - u.sellCosts;
     return {mao:u.mao, profitAtBase, marginAtBase: arv*r.mult ? profitAtBase/(arv*r.mult) : 0};
   }));
@@ -284,22 +707,22 @@ function buildSensitivity(){
     `<tr><td>${r.label}</td>` + d.grid[ri].map(c=>{
       const cl = c.marginAtBase>=.15?"cell-good":c.marginAtBase>=.10?"cell-warn":"cell-bad";
       return `<td class="cell ${cl}">${money(c.profitAtBase)}<div class="mini">${pct(c.marginAtBase)}</div></td>`;
-    }).join("") + "</tr>").join("") + "</tbody>";
+    }).join("")+"</tr>").join("")+"</tbody>";
   $("sensMao").innerHTML = head("Scenario") + "<tbody>" + d.rows.map((r,ri)=>
     `<tr><td>${r.label}</td>` + d.grid[ri].map(c=>{
-      const gap = c.mao - b.mao;
-      const cl = gap>=0?"cell-good":gap>-5000?"cell-warn":"cell-bad";
+      const gap = c.mao - b.mao, cl = gap>=0?"cell-good":gap>-5000?"cell-warn":"cell-bad";
       return `<td class="cell ${cl}">${money(c.mao)}<div class="mini">${gap>=0?"+":""}${money(gap)}</div></td>`;
-    }).join("") + "</tr>").join("") + "</tbody>";
+    }).join("")+"</tr>").join("")+"</tbody>";
 }
 
-// PDF -------------------------------------------------------------
+/* ---------- PDF ---------- */
 function exportPDF(){
   const {i,b,arv,rep} = LAST, d = sensData();
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({unit:"pt",format:"letter"});
-  const W = 612, M = 48; let y = 0;
-  const T=[232,237,243], DK=[13,17,23], AC=[24,169,153], GY=[110,122,135], LN=[214,220,227];
+  const {jsPDF} = window.jspdf, doc = new jsPDF({unit:"pt",format:"letter"});
+  const W=612,H=792,M=48; let y=0;
+  const T=[232,237,243],DK=[13,17,23],AC=[24,169,153],GY=[110,122,135],LN=[214,220,227];
+  const page = () => { doc.addPage(); y = 60; };
+  const need = h => { if(y+h > H-70) page(); };
 
   doc.setFillColor(...DK); doc.rect(0,0,W,86,"F");
   doc.setTextColor(...AC); doc.setFont("helvetica","bold"); doc.setFontSize(9);
@@ -310,99 +733,176 @@ function exportPDF(){
   doc.text("Prepared for cash buyers · "+new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}),M,74);
   y = 118;
 
-  // KPI band
-  const kp = [["Price to buyer",money(b.buyerMax)],["Buyer projected profit",money(b.profit)],
-              ["Margin on ARV",pct(b.margin)],["Return on cash",pct(b.roi)]];
-  const cw = (W-2*M)/4;
-  kp.forEach((k,n)=>{
-    const x = M+n*cw;
-    doc.setDrawColor(...LN); doc.setFillColor(246,248,250);
-    doc.roundedRect(x,y,cw-8,52,5,5,"FD");
-    doc.setFontSize(7.5); doc.setTextColor(...GY); doc.setFont("helvetica","bold");
-    doc.text(k[0].toUpperCase(),x+10,y+17,{maxWidth:cw-26});
-    doc.setFontSize(14); doc.setTextColor(...DK);
-    doc.text(k[1],x+10,y+39);
-  });
-  y += 78;
-
-  const table = (title, rows) => {
-    doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(...DK);
-    doc.text(title,M,y); y+=6;
-    doc.setDrawColor(...AC); doc.setLineWidth(1.4); doc.line(M,y,M+34,y); y+=16;
-    doc.setLineWidth(.5);
+  const kpiBand = kp => {
+    const cw=(W-2*M)/kp.length;
+    kp.forEach((k,n)=>{const x=M+n*cw;
+      doc.setDrawColor(...LN); doc.setFillColor(246,248,250); doc.roundedRect(x,y,cw-8,52,5,5,"FD");
+      doc.setFontSize(7.5); doc.setTextColor(...GY); doc.setFont("helvetica","bold");
+      doc.text(k[0].toUpperCase(),x+10,y+17,{maxWidth:cw-26});
+      doc.setFontSize(13.5); doc.setTextColor(...DK); doc.text(k[1],x+10,y+40);});
+    y += 78;
+  };
+  const table = (title,rows) => {
+    need(40+rows.length*18);
+    doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(...DK); doc.text(title,M,y); y+=6;
+    doc.setDrawColor(...AC); doc.setLineWidth(1.4); doc.line(M,y,M+34,y); y+=16; doc.setLineWidth(.5);
     rows.forEach(r=>{
+      need(20);
       const bold = r[2]==="b";
       doc.setFont("helvetica",bold?"bold":"normal"); doc.setFontSize(9.5);
       doc.setTextColor(...(bold?DK:[60,70,82]));
       doc.text(r[0],M,y); doc.text(r[1],W-M,y,{align:"right"});
-      doc.setDrawColor(...LN); doc.line(M,y+5,W-M,y+5);
-      y += bold?20:17;
+      doc.setDrawColor(...LN); doc.line(M,y+5,W-M,y+5); y += bold?20:17;
     });
     y += 14;
   };
+  const note = txt => { need(40); doc.setFont("helvetica","italic"); doc.setFontSize(8.5); doc.setTextColor(...GY);
+    const lines = doc.splitTextToSize(txt,W-2*M); doc.text(lines,M,y); y += lines.length*11+16; doc.setFont("helvetica","normal"); };
 
-  table("Deal Underwriting", [
+  kpiBand([["Price to buyer",money(b.buyerMax)],["Buyer projected profit",money(b.profit)],
+           ["Margin on ARV",pct(b.margin)],["Return on cash",pct(b.roi)]]);
+
+  table("Deal Underwriting — Fix & Flip Exit",[
     ["After Repair Value (ARV)",money(arv)],
     ["Estimated repair budget",money(-rep)],
     [`Holding costs (${i.months} mo × ${money(i.holdmo)})`,money(-b.holding)],
-    ["Buy-side closing costs",money(-i.closeBuy)],
-    [`Sell-side costs (${i.sellPct}% of ARV)`,money(-b.sellCosts)],
+    ["Buy-side closing costs",money(-b.closeBuy)],
+    [`Sell-side costs (${pct(b.sellCosts/(arv||1))} of resale)`,money(-b.sellCosts)],
     ["Required buyer profit",money(-b.required)],
     ["End-buyer maximum price",money(b.buyerMax),"b"],
     ["Wholesale / assignment fee",money(-i.fee)],
-    ["Maximum Allowable Offer to seller",money(b.mao),"b"]
-  ]);
+    ["Maximum Allowable Offer to seller",money(b.mao),"b"]]);
 
-  table("End-Buyer Position", [
-    ["Purchase price",money(b.buyerMax)],
-    ["Repairs",money(rep)],
-    ["Holding costs",money(b.holding)],
-    ["Buy-side closing",money(i.closeBuy)],
-    ["Total cash invested",money(b.buyerCash),"b"],
-    ["Sell-side costs at resale",money(b.sellCosts)],
-    ["Resale proceeds at ARV",money(arv)],
-    ["Projected net profit",money(b.profit),"b"],
-    ["Profit margin on ARV / ROI on cash",pct(b.margin)+"  /  "+pct(b.roi)]
-  ]);
+  table("End-Buyer Position",[
+    ["Purchase price",money(b.buyerMax)],["Repairs",money(rep)],["Holding costs",money(b.holding)],
+    ["Buy-side closing",money(b.closeBuy)],["Total cash invested",money(b.buyerCash),"b"],
+    ["Sell-side costs at resale",money(b.sellCosts)],["Resale proceeds at ARV",money(arv)],
+    ["Projected net profit",money(b.profit),"b"],["Profit margin on ARV / ROI on cash",pct(b.margin)+"  /  "+pct(b.roi)]]);
 
-  if(y > 560){ doc.addPage(); y = 60; }
+  const ccB = [];
+  ccState.buy.forEach(r=>ccB.push([r.name+(r.mode==="pct"?` (${r.pct}%)`:""),money(r.mode==="pct"?b.buyerMax*r.pct/100:r.dol)]));
+  ccB.push(["Buy-side total",money(b.closeBuy),"b"]);
+  ccState.sell.forEach(r=>ccB.push([r.name+(r.mode==="pct"?` (${r.pct}%)`:""),money(r.mode==="pct"?arv*r.pct/100:r.dol)]));
+  ccB.push(["Sell-side total",money(b.sellCosts),"b"]);
+  if($("useItem").checked) table("Closing Cost Detail",ccB);
 
-  // Sensitivity grid
+  // Sensitivity
+  need(60+d.rows.length*27);
   doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(...DK);
   doc.text("Sensitivity — Buyer Profit (ARV vs. Repair Swings)",M,y); y+=6;
   doc.setDrawColor(...AC); doc.setLineWidth(1.4); doc.line(M,y,M+34,y); y+=8; doc.setLineWidth(.5);
-  const n = d.cols.length+1, colw = (W-2*M)/n;
-  doc.setFontSize(8); doc.setTextColor(...GY);
+  const n=d.cols.length+1, colw=(W-2*M)/n;
+  doc.setFontSize(8); doc.setTextColor(...GY); doc.setFont("helvetica","normal");
   doc.text("Scenario",M+4,y+14);
   d.cols.forEach((c,ci)=>doc.text(c.label,M+colw*(ci+1)+colw-8,y+14,{align:"right"}));
-  y += 20;
+  y+=20;
   d.rows.forEach((r,ri)=>{
     doc.setDrawColor(...LN); doc.line(M,y,W-M,y);
-    doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...DK);
-    doc.text(r.label,M+4,y+15);
+    doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...DK); doc.text(r.label,M+4,y+15);
     d.grid[ri].forEach((c,ci)=>{
-      const m = c.marginAtBase;
+      const m=c.marginAtBase;
       doc.setTextColor(...(m>=.15?[22,130,90]:m>=.10?[168,116,30]:[185,60,45]));
-      doc.setFont("helvetica","bold");
+      doc.setFont("helvetica","bold"); doc.setFontSize(8.5);
       doc.text(money(c.profitAtBase),M+colw*(ci+1)+colw-8,y+13,{align:"right"});
       doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(...GY);
       doc.text(pct(m),M+colw*(ci+1)+colw-8,y+22,{align:"right"});
-      doc.setFontSize(8.5);
     });
-    y += 27;
+    y+=27;
   });
   doc.setDrawColor(...LN); doc.line(M,y,W-M,y); y+=18;
-  doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(...GY);
-  doc.text(doc.splitTextToSize("Contract price held at "+money(b.buyerMax)+" in all scenarios. Figures are estimates based on the assumptions shown and are not an appraisal, inspection, loan commitment, or guarantee of profit. Buyer should verify ARV, repair scope, and carrying costs independently.",W-2*M),M,y);
+  note("Contract price held at "+money(b.buyerMax)+" in all scenarios.");
 
+  if($("incRent").checked){
+    const r = rentalModel(); page();
+    doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(...DK);
+    doc.text("Rental Exit — DSCR & Cash Flow",M,y); y+=24;
+    kpiBand([["DSCR",r.dscr.toFixed(2)],["Monthly cash flow",money(r.cashFlow)],
+             ["Cap rate (all-in)",pct(r.cap)],["Cash left in",money(r.cashLeft)]]);
+    table("Annual Operating Statement",[
+      ["Gross scheduled rent",money(r.gsi)],[`Vacancy (${num("rVac")}%)`,money(-r.vac)],
+      ["Effective gross income",money(r.egi),"b"],
+      [`Management (${num("rMgmt")}%)`,money(-r.mgmt)],["Maintenance + CapEx reserve",money(-(r.maint+r.capex))],
+      [`Property tax (${num("rTax")}% of ARV)`,money(-r.tax)],[`Insurance (${num("rIns")}% of ARV)`,money(-r.ins)],
+      ["HOA / other",money(-r.other)],["Net operating income",money(r.noi),"b"],
+      ["Annual debt service",money(-r.ads)],["Annual cash flow",money(r.noi-r.ads),"b"]]);
+    table("BRRRR Capital Position",[
+      ["All-in basis",money(r.allIn)],[`Refinance at ${num("rLtv")}% of ARV`,money(-r.loan)],
+      ["Cash left in deal",money(r.cashLeft),"b"],["Monthly principal & interest",money(r.p)],
+      [`Max loan at ${num("rDscr").toFixed(2)} DSCR`,money(r.maxLoan)],
+      ["Rent-to-price ratio",pct(r.onePct)],["Day-one equity vs ARV",money(arv-r.allIn),"b"]]);
+    note("Rents, taxes, and insurance are estimates. DSCR shown at the stated LTV, rate, and amortization; actual lender terms will vary.");
+  }
+
+  if($("incWhole").checked){
+    const w = wholetailModel(); need(300);
+    if(y>420) page();
+    doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(...DK);
+    doc.text("Wholetail Exit — Light Rehab & MLS Resale",M,y); y+=24;
+    kpiBand([["Net profit",money(w.profit)],["Cash required",money(w.cash)],
+             ["Return on cash",pct(w.roi)],["Annualized",pct(w.annual)]]);
+    table("Wholetail P&L",[
+      [`MLS sale price (${num("wPct")}% of ARV)`,money(w.price)],
+      [`Commission (${num("wComm")}%)`,money(-w.comm)],[`Concessions (${num("wConc")}%)`,money(-w.conc)],
+      ["Title + closing at sale",money(-w.titleSell)],["Net proceeds",money(w.net),"b"],
+      ["Purchase price",money(-w.buy)],["Cosmetic scope",money(-num("wRepair"))],
+      [`Holding (${w.months.toFixed(1)} months)`,money(-w.holding)],["Buy-side closing",money(-w.closeBuy)],
+      ["Net profit",money(w.profit),"b"],["Premium over assigning the contract",money(w.profit-i.fee),"b"]]);
+  }
+
+  if($("incTerms").checked){
+    const t = termsModel(); if(y>380) page();
+    doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(...DK);
+    doc.text("Seller Finance & Wrap Structure",M,y); y+=24;
+    kpiBand([["Monthly spread",money(t.spread)],["Day-one cash",money(t.dayOne)],
+             ["Price spread",money(t.equitySpread)],["Note value today",money(t.notePV)]]);
+    table("Terms",[
+      [`Purchase price / down`,money(num("tPrice"))+" / "+money(num("tDown"))],
+      [`Your note: ${money(t.bal)} @ ${num("tRate")}%, ${num("tAmort")} yr, ${num("tBalloon")} mo balloon`,money(t.p)+"/mo"],
+      ...(t.wrapped?[["Underlying wrapped loan payment",money(t.uPmt)+"/mo"]]:[]),
+      [`Sale price / down collected`,money(num("sPrice"))+" / "+money(num("sDown"))],
+      [`Buyer note: ${money(t.sBal)} @ ${num("sRate")}%, ${num("sAmort")} yr, ${num("sBalloon")} mo balloon`,money(t.sP)+"/mo"],
+      ["Net monthly spread",money(t.spread),"b"],
+      ["Your balloon owed",money(t.balloonBal)],["Buyer balloon owed",money(t.sBalloon)],
+      ["Back-end balance spread",money(t.sBalloon-t.balloonBal)],
+      ["Total profit through balloon",money(t.totalProfit),"b"]]);
+    note("Seller-financing and wrap structures carry legal, title, due-on-sale, and servicing considerations. Review with a real-estate attorney before execution.");
+  }
+
+  // footer disclaimer on every page
+  const total = doc.internal.getNumberOfPages();
+  for(let p=1;p<=total;p++){
+    doc.setPage(p); doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(...GY);
+    doc.text(doc.splitTextToSize("Estimates based on the assumptions shown; not an appraisal, inspection, loan commitment, or guarantee of profit. Buyer should independently verify ARV, repair scope, rents, and carrying costs.",W-2*M-60),M,H-42);
+    doc.text(`${p} / ${total}`,W-M,H-42,{align:"right"});
+  }
   doc.save("Deal-Summary-"+(i.addr||"property").replace(/[^a-z0-9]+/gi,"-").slice(0,40)+".pdf");
 }
 
+/* ---------- wiring ---------- */
+$("tabs").addEventListener("click",e=>{
+  const btn=e.target.closest("button[data-t]"); if(!btn) return;
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b===btn));
+  document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.dataset.p===btn.dataset.t));
+});
+$("holdMode").addEventListener("click",e=>{
+  const btn=e.target.closest("button[data-v]"); if(!btn) return;
+  holdMode=btn.dataset.v;
+  document.querySelectorAll("#holdMode button").forEach(b=>b.classList.toggle("on",b===btn));
+  $("holdDollar").style.display = holdMode==="dollar"?"":"none";
+  $("holdPct").style.display = holdMode==="pct"?"":"none";
+  $("holdItem").style.display = holdMode==="item"?"":"none";
+  run();
+});
+$("useItem").addEventListener("change",()=>{
+  $("itemBox").style.display = $("useItem").checked?"":"none";
+  $("simpleBox").style.display = $("useItem").checked?"none":"";
+  run();
+});
 $("calc").onclick = run;
 $("pdf").onclick = exportPDF;
 $("reset").onclick = ()=>location.reload();
-document.querySelectorAll("input,select").forEach(el=>el.addEventListener("input",run));
-run();
+document.addEventListener("input",e=>{ if(e.target.matches("input,select") && !e.target.dataset.cc) run(); });
+initCC(); run();
 </script>
 </body>
 </html>
