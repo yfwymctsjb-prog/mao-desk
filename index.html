@@ -263,8 +263,8 @@ function swings(){
 }
 function sensData(){
   const {i,arv,rep,b} = LAST, s = swings();
-  const cols = s.map(x=>({label:(x>0?"+":"")+x+"% repairs", mult:1+x/100}));
-  const rows = s.slice().reverse().map(x=>({label:(x>0?"+":"")+x+"% ARV", mult:1+x/100}));
+  const cols = s.map(x=>({label:x===0?"Base repairs":(x>0?"+":"")+x+"% repairs", mult:1+x/100}));
+  const rows = s.slice().reverse().map(x=>({label:x===0?"Base ARV":(x>0?"+":"")+x+"% ARV", mult:1+x/100}));
   const grid = rows.map(r=>cols.map(c=>{
     const u = underwrite(arv*r.mult, rep*c.mult, i);
     // profit to buyer if wholesaler holds contract at base MAO and same fee
@@ -311,7 +311,7 @@ function exportPDF(){
   y = 118;
 
   // KPI band
-  const kp = [["Contract price to buyer",money(b.buyerMax)],["Buyer projected profit",money(b.profit)],
+  const kp = [["Price to buyer",money(b.buyerMax)],["Buyer projected profit",money(b.profit)],
               ["Margin on ARV",pct(b.margin)],["Return on cash",pct(b.roi)]];
   const cw = (W-2*M)/4;
   kp.forEach((k,n)=>{
