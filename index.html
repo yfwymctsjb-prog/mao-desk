@@ -53,6 +53,7 @@ thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:va
 td.num,th.num{font-family:var(--mono)}
 tr.total td{font-weight:700;border-top:1px solid var(--line);border-bottom:none;white-space:nowrap}
 tr.sub td{color:var(--muted);font-size:12.5px}
+td.tl,th.tl{text-align:left}
 .badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;border:1px solid}
 .b-good{color:var(--good);border-color:rgba(62,201,138,.4);background:rgba(62,201,138,.1)}
 .b-warn{color:var(--warn);border-color:rgba(229,165,75,.4);background:rgba(229,165,75,.1)}
@@ -165,6 +166,7 @@ footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1300px;margi
     <section class="card">
       <div class="tabs" id="tabs">
         <button data-t="flip" class="on">Flip / Wholesale</button>
+        <button data-t="repair">Repair Scope</button>
         <button data-t="close">Closing Costs</button>
         <button data-t="rent">Rental &amp; DSCR</button>
         <button data-t="whole">Wholetail</button>
@@ -178,6 +180,40 @@ footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1300px;margi
           <div><h2>Offer Waterfall</h2><table id="waterfall"></table></div>
           <div><h2>End-Buyer Deal Math</h2><table id="buyer"></table></div>
         </div>
+      </div>
+
+      <!-- REPAIR ESTIMATOR -->
+      <div class="pane" data-p="repair">
+        <h2>Repair Scope Estimator</h2>
+        <p class="mini">Line-item scope with investor-grade Houston unit costs. Toggle lines off, edit quantity or unit cost, then push the total into the repair budget that drives MAO.</p>
+        <div class="row3" style="margin-top:14px">
+          <div><label>Living area (sq ft)</label><input id="sqft" type="number" value="1680"></div>
+          <div><label>Roofing squares</label><input id="roofSq" type="number" step="0.5" value="22.7"><div class="hint">Auto: sq ft ÷ 100 × 1.35 for pitch</div></div>
+          <div><label>Contingency (%)</label><input id="contPct" type="number" step="1" value="10"></div>
+        </div>
+        <div class="row3">
+          <div><label>GC / project management (%)</label><input id="gcPct" type="number" step="1" value="0"></div>
+          <div><label>Full baths</label><input id="nBath" type="number" step="1" value="2"></div>
+          <div><label>Cost basis</label>
+            <select id="costTier"><option value="1">Investor grade (rental / flip spec)</option>
+              <option value="1.28">Upgraded finish (+28%)</option>
+              <option value="1.6">Retail / homeowner pricing (+60%)</option>
+              <option value="0.82">In-house crews (−18%)</option></select></div>
+        </div>
+        <h4>Scope Presets</h4>
+        <div class="seg" id="scopePreset">
+          <button data-s="cosmetic">Cosmetic</button><button data-s="light">Light</button>
+          <button data-s="moderate" class="on">Moderate</button><button data-s="heavy">Heavy</button><button data-s="gut">Gut</button>
+        </div>
+        <div class="kpis" id="repKpis" style="margin-top:20px"></div>
+        <div class="btns">
+          <button class="primary" id="pushRep">Push total to repair budget</button>
+          <button id="allOn">Select all lines</button><button id="allOff">Clear all lines</button>
+        </div>
+        <div id="repTables" style="margin-top:6px"></div>
+        <table id="repRoll" style="margin-top:20px"></table>
+        <p class="mini" id="repVerdict" style="margin-top:14px"></p>
+        <label class="inc"><input type="checkbox" id="incRep" checked> Include repair scope in buyer PDF</label>
       </div>
 
       <!-- CLOSING COSTS -->
@@ -343,6 +379,8 @@ const $ = id => document.getElementById(id);
 const money = v => (!isFinite(v)?"—":(v<0?"-":"") + "$" + Math.abs(Math.round(v)).toLocaleString());
 const pct = v => (!isFinite(v)?"—":(v*100).toFixed(1) + "%");
 const num = id => parseFloat($(id).value) || 0;
+const rate1 = v => v<20 ? "$"+v.toFixed(2) : money(v);
+const rate = rate1;
 const pmt = (P,rate,years) => { const r=rate/100/12, n=years*12; if(!n) return 0; return r===0 ? P/n : P*r/(1-Math.pow(1+r,-n)); };
 const balAfter = (P,rate,years,mo) => { const r=rate/100/12,n=years*12; if(r===0) return Math.max(0,P*(1-mo/n)); const m=pmt(P,rate,years); return Math.max(0,P*Math.pow(1+r,mo) - m*(Math.pow(1+r,mo)-1)/r); };
 const pv = (m,rate,mo) => { const r=rate/100/12; return r===0? m*mo : m*(1-Math.pow(1+r,-mo))/r; };
@@ -397,6 +435,134 @@ function ccTotals(buyBasis,sellBasis){
 }
 function closeBuyAmt(basis){ return $("useItem").checked ? ccTotal("buy",basis) : num("closeBuySimple"); }
 function sellCostAmt(basis){ return $("useItem").checked ? ccTotal("sell",basis) : basis*num("sellPctSimple")/100; }
+
+/* ---------- repair scope estimator ---------- */
+// [name, category, unit, defaultQty(null = derived), unitCost]  unit: sf|roofsq|ea|lf|ls
+const REP = [
+ ["Roof — tear off & architectural shingle","Exterior & Systems","roofsq",null,385],
+ ["Foundation — pressed piles","Exterior & Systems","ea",8,500],
+ ["HVAC — complete system replacement","Exterior & Systems","ea",1,8500],
+ ["Ductwork replacement","Exterior & Systems","ls",1,2800],
+ ["Electrical — panel + partial rewire","Exterior & Systems","ls",1,3800],
+ ["Plumbing — PEX repipe / repairs","Exterior & Systems","ls",1,4500],
+ ["Sewer line repair / hydro jet","Exterior & Systems","ls",1,1900],
+ ["Water heater","Exterior & Systems","ea",1,1450],
+ ["Windows — vinyl replacement","Exterior & Systems","ea",12,475],
+ ["Exterior paint + siding repair","Exterior & Systems","sf",null,2.1],
+ ["Fascia, soffit, gutters","Exterior & Systems","ls",1,1800],
+ ["Fence — cedar privacy","Exterior & Systems","lf",150,32],
+ ["Concrete — drive, walk, patio","Exterior & Systems","ls",1,3200],
+ ["Landscaping, tree trim, sod","Exterior & Systems","ls",1,1500],
+ ["Sheetrock repair + texture","Interior","sf",null,1.6],
+ ["Interior paint — walls, ceilings, trim","Interior","sf",null,2.0],
+ ["Flooring — LVP installed","Interior","sf",null,4.0],
+ ["Carpet — bedrooms","Interior","sf",450,3.1],
+ ["Interior doors + hardware","Interior","ea",8,265],
+ ["Baseboards + casing","Interior","lf",320,3.25],
+ ["Light fixtures + ceiling fans","Interior","ea",12,145],
+ ["Attic insulation — blown to R-38","Interior","sf",null,1.35],
+ ["Kitchen — cabinets, counters, sink, tile","Kitchen & Baths","ea",1,11500],
+ ["Appliance package","Kitchen & Baths","ls",1,2800],
+ ["Full bath renovation","Kitchen & Baths","ea",null,5800],
+ ["Half bath refresh","Kitchen & Baths","ea",1,2200],
+ ["Permits + engineering letter","Soft Costs","ls",1,1200],
+ ["Dumpster + junk out","Soft Costs","ls",1,1400],
+ ["Termite / pest treatment","Soft Costs","ls",1,650],
+ ["Final clean + staging photos","Soft Costs","ls",1,450]
+];
+const PRESETS = {
+  cosmetic:["Interior paint — walls, ceilings, trim","Flooring — LVP installed","Light fixtures + ceiling fans",
+    "Sheetrock repair + texture","Landscaping, tree trim, sod","Dumpster + junk out","Final clean + staging photos"],
+  light:["Interior paint — walls, ceilings, trim","Flooring — LVP installed","Light fixtures + ceiling fans",
+    "Sheetrock repair + texture","Baseboards + casing","Interior doors + hardware","Water heater","Appliance package",
+    "Full bath renovation","Exterior paint + siding repair","Landscaping, tree trim, sod","Dumpster + junk out",
+    "Termite / pest treatment","Final clean + staging photos"],
+  moderate:["Roof — tear off & architectural shingle","HVAC — complete system replacement","Water heater",
+    "Exterior paint + siding repair","Fascia, soffit, gutters","Sheetrock repair + texture",
+    "Interior paint — walls, ceilings, trim","Flooring — LVP installed","Interior doors + hardware",
+    "Baseboards + casing","Light fixtures + ceiling fans","Attic insulation — blown to R-38",
+    "Kitchen — cabinets, counters, sink, tile","Appliance package","Full bath renovation",
+    "Permits + engineering letter","Dumpster + junk out","Termite / pest treatment","Final clean + staging photos",
+    "Landscaping, tree trim, sod"],
+  heavy:REP.filter(r=>r[0]!=="Carpet — bedrooms"&&r[0]!=="Concrete — drive, walk, patio").map(r=>r[0]),
+  gut:REP.map(r=>r[0])
+};
+let repState=null;
+function initRep(){
+  repState = REP.map(r=>({name:r[0],cat:r[1],unit:r[2],qty:r[3],cost:r[4],on:PRESETS.moderate.includes(r[0])}));
+}
+function repQty(r){
+  if(r.qty!==null && r.qty!==undefined) return r.qty;
+  if(r.unit==="roofsq") return num("roofSq");
+  if(r.unit==="sf") return num("sqft");
+  if(r.name==="Full bath renovation") return num("nBath");
+  return 1;
+}
+const UNIT_LBL={sf:"/ sq ft",roofsq:"/ square",ea:"each",lf:"/ LF",ls:"lump sum"};
+function repairModel(){
+  const mult = parseFloat($("costTier").value)||1;
+  const lines = repState.map(r=>{const q=repQty(r), amt=r.on? q*r.cost*mult : 0; return {...r,q,amt,mult};});
+  const cats = {};
+  lines.forEach(l=>{ if(!cats[l.cat]) cats[l.cat]=0; cats[l.cat]+=l.amt; });
+  const sub = lines.reduce((s,l)=>s+l.amt,0);
+  const cont = sub*num("contPct")/100, gc = sub*num("gcPct")/100;
+  const total = sub+cont+gc;
+  const sf = num("sqft");
+  return {lines,cats,sub,cont,gc,total,perSf: sf? total/sf : 0, count: lines.filter(l=>l.on).length};
+}
+const TIERS=[["Cosmetic",8,20],["Light",20,32],["Moderate",32,50],["Heavy",50,70],["Gut / full rebuild",70,100]];
+function tierOf(psf){ const t=TIERS.find(t=>psf<=t[2]); return t? t[0] : "Above gut-rehab range"; }
+function repair(){
+  const m = repairModel(), arv=num("arv"), rep=num("repairs");
+  const drift = m.total - rep;
+  $("repKpis").innerHTML = `
+   <div class="kpi hero"><div class="k">Scope total</div><div class="v">${money(m.total)}</div>
+     <div class="mini">${m.count} line items active</div></div>
+   <div class="kpi"><div class="k">Cost per sq ft</div><div class="v">$${m.perSf.toFixed(2)}</div>
+     <div class="mini">${tierOf(m.perSf)} tier</div></div>
+   <div class="kpi"><div class="k">Scope as % of ARV</div><div class="v">${pct(arv? m.total/arv:0)}</div>
+     <div class="mini">Contingency ${money(m.cont)}</div></div>
+   <div class="kpi"><div class="k">vs current repair budget</div><div class="v" style="color:var(--${Math.abs(drift)<1000?'good':'warn'})">${(drift>=0?"+":"")+money(drift)}</div>
+     <div class="mini">Budget in model: ${money(rep)}</div></div>`;
+
+  const editing = document.activeElement && document.activeElement.dataset && document.activeElement.dataset.rep;
+  if(!editing){
+    const cats = [...new Set(REP.map(r=>r[1]))];
+    $("repTables").innerHTML = cats.map(cat=>{
+      const rows = m.lines.map((l,idx)=>({l,idx})).filter(o=>o.l.cat===cat);
+      return `<h4>${cat} — ${money(m.cats[cat]||0)}</h4>
+      <table><thead><tr><th style="width:34px"></th><th class="tl">Line item</th><th class="num">Qty</th><th class="tl">Unit</th>
+        <th class="num">Unit cost</th><th class="num">Amount</th></tr></thead><tbody>`+
+      rows.map(({l,idx})=>`<tr style="${l.on?"":"opacity:.45"}">
+        <td><input type="checkbox" data-rep="${idx}" data-f="on"${l.on?" checked":""}></td>
+        <td class="tl">${l.name}</td>
+        <td class="num"><input data-rep="${idx}" data-f="qty" type="number" step="${l.unit==="sf"||l.unit==="lf"?10:0.5}" value="${(+l.q).toFixed(l.unit==="roofsq"?1:0)}"
+          style="padding:4px 6px;font-size:12.5px;text-align:right;max-width:86px"></td>
+        <td class="mini tl">${UNIT_LBL[l.unit]}</td>
+        <td class="num"><input data-rep="${idx}" data-f="cost" type="number" step="${l.cost<20?0.05:25}" value="${l.cost}"
+          style="padding:4px 6px;font-size:12.5px;text-align:right;max-width:96px"></td>
+        <td class="num">${money(l.amt)}</td></tr>`).join("")+`</tbody></table>`;
+    }).join("");
+    document.querySelectorAll("[data-rep]").forEach(el=>el.addEventListener("input",e=>{
+      const t=e.target, r=repState[+t.dataset.rep];
+      if(t.dataset.f==="on"){ r.on=t.checked; t.blur(); }
+      else r[t.dataset.f]=parseFloat(t.value)||0;
+      run();
+    }));
+  }
+  $("repRoll").innerHTML = `<thead><tr><th>Rollup</th><th class="num">Amount</th></tr></thead><tbody>`+
+    Object.keys(m.cats).map(c=>`<tr><td>${c}</td><td class="num">${money(m.cats[c])}</td></tr>`).join("")+
+    `<tr class="total"><td>Hard cost subtotal</td><td class="num">${money(m.sub)}</td></tr>
+     <tr><td>Contingency (${num("contPct")}%)</td><td class="num">${money(m.cont)}</td></tr>
+     <tr><td>GC / project management (${num("gcPct")}%)</td><td class="num">${money(m.gc)}</td></tr>
+     <tr class="total"><td>Total repair budget</td><td class="num">${money(m.total)}</td></tr>
+     <tr class="sub"><td>Per square foot on ${num("sqft").toLocaleString()} sq ft</td><td class="num">$${m.perSf.toFixed(2)}</td></tr></tbody>`;
+
+  const band = TIERS.map(t=>`${t[0]} $${t[1]}–$${t[2]}`).join(" · ");
+  $("repVerdict").innerHTML = Math.abs(drift)<1000
+    ? `<span class="badge b-good">In sync</span> The scope matches the repair budget driving MAO. Benchmark bands per sq ft: ${band}.`
+    : `<span class="badge b-warn">${money(Math.abs(drift))} ${drift>0?"above":"below"} the model</span> The model is underwriting ${money(rep)} while this scope prices at ${money(m.total)} — push the total so MAO reflects it. Benchmark bands per sq ft: ${band}.`;
+}
 
 /* ---------- holding cost ---------- */
 let holdMode="dollar";
@@ -504,7 +670,7 @@ function run(){
    <tr class="total"><td>Projected profit</td><td class="num">${money(b.profit)}</td></tr>
    <tr class="sub"><td>Profit margin on ARV / ROI on cash</td><td class="num">${pct(b.margin)} / ${pct(b.roi)}</td></tr></tbody>`;
 
-  renderCC(); buildSensitivity(); rental(); wholetail(); terms();
+  renderCC(); repair(); buildSensitivity(); rental(); wholetail(); terms();
 }
 
 /* ---------- rental / DSCR ---------- */
@@ -812,6 +978,26 @@ function exportPDF(){
   doc.setDrawColor(...LN); doc.line(M,y,W-M,y); y+=18;
   note("Contract price held at "+money(b.buyerMax)+" in all scenarios.");
 
+  if($("incRep").checked){
+    const m = repairModel(); page();
+    doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(...DK);
+    doc.text("Repair Scope — Line Item Detail",M,y); y+=24;
+    kpiBand([["Scope total",money(m.total)],["Cost per sq ft","$"+m.perSf.toFixed(2)],
+             ["Scope tier",tierOf(m.perSf)],["Line items",String(m.count)]]);
+    [...new Set(REP.map(r=>r[1]))].forEach(cat=>{
+      const rows = m.lines.filter(l=>l.cat===cat && l.on).map(l=>[
+        l.name + "  (" + (l.unit==="ls"?"lump sum":(+l.q).toLocaleString()+" "+UNIT_LBL[l.unit].replace("/ ","")+" @ "+rate(l.cost*l.mult)) + ")",
+        money(l.amt)]);
+      if(rows.length){ rows.push([cat+" subtotal",money(m.cats[cat]),"b"]); table(cat,rows); }
+    });
+    table("Budget Rollup",[["Hard cost subtotal",money(m.sub),"b"],
+      [`Contingency (${num("contPct")}%)`,money(m.cont)],
+      [`GC / project management (${num("gcPct")}%)`,money(m.gc)],
+      ["Total repair budget",money(m.total),"b"],
+      [`Per square foot on ${num("sqft").toLocaleString()} sq ft`,"$"+m.perSf.toFixed(2)]]);
+    note("Unit costs reflect investor-grade Houston pricing and are estimates only, not contractor bids. Quantities are approximate until a walkthrough and licensed inspection are complete.");
+  }
+
   if($("incRent").checked){
     const r = rentalModel(); page();
     doc.setFont("helvetica","bold"); doc.setFontSize(13); doc.setTextColor(...DK);
@@ -893,6 +1079,17 @@ $("holdMode").addEventListener("click",e=>{
   $("holdItem").style.display = holdMode==="item"?"":"none";
   run();
 });
+$("scopePreset").addEventListener("click",e=>{
+  const btn=e.target.closest("button[data-s]"); if(!btn) return;
+  document.querySelectorAll("#scopePreset button").forEach(b=>b.classList.toggle("on",b===btn));
+  const list = PRESETS[btn.dataset.s];
+  repState.forEach(r=>r.on = list.includes(r.name));
+  run();
+});
+$("pushRep").onclick = ()=>{ $("repairs").value = Math.round(repairModel().total); run(); };
+$("allOn").onclick = ()=>{ repState.forEach(r=>r.on=true); run(); };
+$("allOff").onclick = ()=>{ repState.forEach(r=>r.on=false); run(); };
+$("sqft").addEventListener("input",()=>{ $("roofSq").value = (num("sqft")/100*1.35).toFixed(1); run(); });
 $("useItem").addEventListener("change",()=>{
   $("itemBox").style.display = $("useItem").checked?"":"none";
   $("simpleBox").style.display = $("useItem").checked?"none":"";
@@ -901,8 +1098,8 @@ $("useItem").addEventListener("change",()=>{
 $("calc").onclick = run;
 $("pdf").onclick = exportPDF;
 $("reset").onclick = ()=>location.reload();
-document.addEventListener("input",e=>{ if(e.target.matches("input,select") && !e.target.dataset.cc) run(); });
-initCC(); run();
+document.addEventListener("input",e=>{ if(e.target.matches("input,select") && !e.target.dataset.cc && !e.target.dataset.rep) run(); });
+initCC(); initRep(); run();
 </script>
 </body>
 </html>
