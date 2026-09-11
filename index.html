@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MAO Desk — Wholesale Underwriting Calculator</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M5 22 L16 7 L27 22' stroke='%2318a999' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117; --surface:#151b23; --surface-2:#1c242e; --line:#2a3441;
+  --text:#e8edf3; --muted:#93a1b1; --accent:#18a999; --accent-soft:rgba(24,169,153,.12);
+  --good:#3ec98a; --warn:#e5a54b; --bad:#e5624b;
+  --r:10px; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Satoshi',system-ui,sans-serif;font-size:15px;line-height:1.5}
+a{color:var(--accent)}
+header{border-bottom:1px solid var(--line);padding:18px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.02em;font-size:18px}
+.logo svg{color:var(--accent)}
+header .tag{color:var(--muted);font-size:13px;border-left:1px solid var(--line);padding-left:14px}
+main{max-width:1240px;margin:0 auto;padding:24px;display:grid;grid-template-columns:380px 1fr;gap:24px;align-items:start}
+@media(max-width:960px){main{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 14px;font-weight:700}
+h3{font-size:15px;margin:22px 0 10px;font-weight:700}
+label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px}
+.hint{font-size:11.5px;color:#6f7d8c;margin-top:4px}
+input,select{width:100%;background:var(--surface-2);border:1px solid var(--line);color:var(--text);
+  padding:9px 11px;border-radius:8px;font-family:var(--mono);font-size:14px}
+input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btns{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+button{font-family:inherit;font-weight:700;font-size:14px;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface-2);color:var(--text)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#04211e}
+button:hover{filter:brightness(1.1)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kpi{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.kpi .k{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
+.kpi.hero{border-color:var(--accent);background:linear-gradient(180deg,var(--accent-soft),transparent)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+td.num,th.num{font-family:var(--mono)}
+tr.total td{font-weight:700;border-top:1px solid var(--line);border-bottom:none}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;border:1px solid}
+.b-good{color:var(--good);border-color:rgba(62,201,138,.4);background:rgba(62,201,138,.1)}
+.b-warn{color:var(--warn);border-color:rgba(229,165,75,.4);background:rgba(229,165,75,.1)}
+.b-bad{color:var(--bad);border-color:rgba(229,98,75,.4);background:rgba(229,98,75,.1)}
+.grid-sens td.cell{font-family:var(--mono);font-weight:600}
+.cell-good{background:rgba(62,201,138,.13)}
+.cell-warn{background:rgba(229,165,75,.13)}
+.cell-bad{background:rgba(229,98,75,.15)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+footer{color:#6f7d8c;font-size:12px;padding:8px 24px 40px;max-width:1240px;margin:0 auto}
+.stack{display:flex;flex-direction:column;gap:24px}
+.mini{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-label="MAO Desk logo"><path d="M4 23 L16 7 L28 23" stroke="currentColor" stroke-width="2.6"/><path d="M11 23 L16 16 L21 23" stroke="currentColor" stroke-width="2.6" opacity=".5"/></svg>
+    MAO Desk
+  </div>
+  <div class="tag">Wholesale underwriting &amp; buyer-margin calculator</div>
+</header>
+
+<main>
+  <!-- INPUTS -->
+  <section class="card">
+    <h2>Deal Inputs</h2>
+    <label>Property address / deal name</label>
+    <input id="addr" type="text" value="1420 Example St, Houston, TX 77004" style="font-family:inherit">
+    <div class="row">
+      <div><label>After Repair Value (ARV)</label><input id="arv" type="number" value="285000"></div>
+      <div><label>Estimated repairs</label><input id="repairs" type="number" value="55000"></div>
+    </div>
+
+    <h3>Buyer's Carry &amp; Transaction Costs</h3>
+    <div class="row">
+      <div><label>Hold period (months)</label><input id="months" type="number" value="5"></div>
+      <div><label>Holding cost / month</label><input id="holdmo" type="number" value="1400"></div>
+    </div>
+    <div class="hint">Taxes, insurance, utilities, loan interest, lawn/security.</div>
+    <div class="row">
+      <div><label>Buy-side closing costs</label><input id="closeBuy" type="number" value="3500"></div>
+      <div><label>Sell-side costs (% of ARV)</label><input id="sellPct" type="number" step="0.1" value="8"></div>
+    </div>
+    <div class="hint">Sell-side = agent commissions, title, seller concessions.</div>
+
+    <h3>Buyer Return Requirement</h3>
+    <label>Method</label>
+    <select id="method">
+      <option value="pctARV">Target profit as % of ARV</option>
+      <option value="dollar">Target profit in dollars</option>
+      <option value="roi">Target return on cash invested (%)</option>
+      <option value="rule">Classic % of ARV rule (70% rule)</option>
+    </select>
+    <div class="row">
+      <div><label id="reqLabel">Target profit (% of ARV)</label><input id="reqVal" type="number" step="0.5" value="15"></div>
+      <div><label>Your wholesale fee</label><input id="fee" type="number" value="12000"></div>
+    </div>
+    <div class="hint" id="methodHint">Buyer must clear this margin after all costs.</div>
+
+    <h3>Sensitivity</h3>
+    <label>ARV / repair swing tested</label>
+    <select id="swing">
+      <option value="5">± 5%</option>
+      <option value="10" selected>± 10%</option>
+      <option value="both">± 5% and ± 10%</option>
+    </select>
+
+    <div class="btns">
+      <button class="primary" id="calc">Run underwriting</button>
+      <button id="pdf">Export buyer PDF</button>
+      <button id="reset">Reset</button>
+    </div>
+  </section>
+
+  <!-- OUTPUTS -->
+  <div class="stack">
+    <section class="card">
+      <h2>Headline Numbers</h2>
+      <div class="kpis" id="kpis"></div>
+      <p class="mini" id="verdict" style="margin-top:16px"></p>
+    </section>
+
+    <div class="split">
+      <section class="card">
+        <h2>Offer Waterfall</h2>
+        <table id="waterfall"></table>
+      </section>
+      <section class="card">
+        <h2>End-Buyer Deal Math</h2>
+        <table id="buyer"></table>
+      </section>
+    </div>
+
+    <section class="card">
+      <h2>Sensitivity — Buyer Profit at Your Contract Price</h2>
+      <p class="mini" id="sensNote"></p>
+      <table class="grid-sens" id="sensProfit"></table>
+      <h2 style="margin-top:26px">Sensitivity — Max Allowable Offer</h2>
+      <table class="grid-sens" id="sensMao"></table>
+    </section>
+  </div>
+</main>
+<footer>Underwriting tool for internal use. Figures are estimates based on the inputs above and are not an appraisal, loan commitment, or guarantee of profit.</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const money = v => (v<0?"-":"") + "$" + Math.abs(Math.round(v)).toLocaleString();
+const pct = v => (v*100).toFixed(1) + "%";
+const num = id => parseFloat($(id).value) || 0;
+
+const methodLabels = {
+  pctARV:["Target profit (% of ARV)","Buyer must clear this margin after all costs. 10–20% is typical for flippers."],
+  dollar:["Target profit ($)","Fixed dollar profit the buyer demands regardless of price point."],
+  roi:["Target return on cash (%)","Profit ÷ cash invested (purchase + repairs + holding + buy closing). Assumes all-cash."],
+  rule:["Rule percentage (% of ARV)","Classic shortcut: Buyer max price = ARV × % − repairs. Ignores your other cost inputs."]
+};
+$("method").addEventListener("change",()=>{
+  const [l,h]=methodLabels[$("method").value];
+  $("reqLabel").textContent=l; $("methodHint").textContent=h;
+  $("reqVal").value = $("method").value==="dollar"?35000:$("method").value==="roi"?20:$("method").value==="rule"?70:15;
+  run();
+});
+
+// Core engine -----------------------------------------------------
+function underwrite(arv, repairs, i){
+  const holding = i.months * i.holdmo;
+  const sellCosts = arv * i.sellPct/100;
+  const softCosts = holding + i.closeBuy + sellCosts;
+  let buyerMax, required;
+  if(i.method==="rule"){
+    buyerMax = arv*(i.reqVal/100) - repairs;
+    required = arv - repairs - softCosts - buyerMax;
+  } else if(i.method==="roi"){
+    // profit = ARV - (P+repairs+holding+closeBuy+sell); cash = P+repairs+holding+closeBuy
+    // require profit = r*cash  ->  ARV - C - sell = r*C, C = P+repairs+holding+closeBuy
+    const r = i.reqVal/100;
+    const C = (arv - sellCosts)/(1+r);
+    buyerMax = C - repairs - holding - i.closeBuy;
+    required = r*C;
+  } else {
+    required = i.method==="dollar" ? i.reqVal : arv*(i.reqVal/100);
+    buyerMax = arv - repairs - softCosts - required;
+  }
+  const mao = buyerMax - i.fee;
+  const buyerCash = buyerMax + repairs + holding + i.closeBuy;
+  const profit = arv - buyerCash - sellCosts;
+  return {arv,repairs,holding,sellCosts,softCosts,buyerMax,mao,required,buyerCash,profit,
+    margin: arv?profit/arv:0, roi: buyerCash?profit/buyerCash:0, allIn: buyerCash + sellCosts};
+}
+function inputs(){
+  return {months:num("months"),holdmo:num("holdmo"),closeBuy:num("closeBuy"),sellPct:num("sellPct"),
+    fee:num("fee"),method:$("method").value,reqVal:num("reqVal"),addr:$("addr").value};
+}
+function tone(margin){ return margin>=0.15?"good":margin>=0.10?"warn":"bad"; }
+
+let LAST = null;
+function run(){
+  const i = inputs(), arv = num("arv"), rep = num("repairs");
+  const b = underwrite(arv, rep, i);
+  LAST = {i,b,arv,rep};
+
+  const t = tone(b.margin);
+  $("kpis").innerHTML = `
+   <div class="kpi hero"><div class="k">Max Allowable Offer (to seller)</div><div class="v">${money(b.mao)}</div>
+     <div class="mini">${arv?pct(b.mao/arv):"—"} of ARV</div></div>
+   <div class="kpi"><div class="k">Your assignment fee</div><div class="v">${money(i.fee)}</div>
+     <div class="mini">Buyer pays ${money(b.buyerMax)}</div></div>
+   <div class="kpi"><div class="k">Buyer projected profit</div><div class="v" style="color:var(--${t})">${money(b.profit)}</div>
+     <div class="mini">Margin ${pct(b.margin)} · ROI ${pct(b.roi)}</div></div>
+   <div class="kpi"><div class="k">Buyer all-in vs ARV</div><div class="v">${arv?pct(b.allIn/arv):"—"}</div>
+     <div class="mini">${money(b.allIn)} total exposure</div></div>`;
+
+  const badge = t==="good"?'<span class="badge b-good">Strong spread</span>':
+                t==="warn"?'<span class="badge b-warn">Thin — negotiate</span>':
+                           '<span class="badge b-bad">Below buyer threshold</span>';
+  $("verdict").innerHTML = `${badge} Contract at <strong>${money(b.mao)}</strong> or below to keep a ${money(i.fee)} fee intact.
+    Every $1,000 over MAO comes directly out of your fee or the buyer's margin.
+    Breakeven contract price (zero fee): <strong>${money(b.buyerMax)}</strong>.`;
+
+  $("waterfall").innerHTML = `
+   <thead><tr><th>Line item</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>After Repair Value</td><td class="num">${money(arv)}</td></tr>
+   <tr><td>Less estimated repairs</td><td class="num">${money(-rep)}</td></tr>
+   <tr><td>Less holding costs (${i.months} mo × ${money(i.holdmo)})</td><td class="num">${money(-b.holding)}</td></tr>
+   <tr><td>Less buy-side closing</td><td class="num">${money(-i.closeBuy)}</td></tr>
+   <tr><td>Less sell-side costs (${i.sellPct}% of ARV)</td><td class="num">${money(-b.sellCosts)}</td></tr>
+   <tr><td>Less required buyer profit</td><td class="num">${money(-b.required)}</td></tr>
+   <tr class="total"><td>End-buyer maximum price</td><td class="num">${money(b.buyerMax)}</td></tr>
+   <tr><td>Less your wholesale fee</td><td class="num">${money(-i.fee)}</td></tr>
+   <tr class="total"><td>Maximum Allowable Offer</td><td class="num">${money(b.mao)}</td></tr>
+   </tbody>`;
+
+  $("buyer").innerHTML = `
+   <thead><tr><th>End-buyer position</th><th class="num">Amount</th></tr></thead><tbody>
+   <tr><td>Purchase price paid to you</td><td class="num">${money(b.buyerMax)}</td></tr>
+   <tr><td>Repairs</td><td class="num">${money(rep)}</td></tr>
+   <tr><td>Holding costs</td><td class="num">${money(b.holding)}</td></tr>
+   <tr><td>Buy-side closing</td><td class="num">${money(i.closeBuy)}</td></tr>
+   <tr class="total"><td>Cash invested</td><td class="num">${money(b.buyerCash)}</td></tr>
+   <tr><td>Sell-side costs</td><td class="num">${money(b.sellCosts)}</td></tr>
+   <tr><td>Resale at ARV</td><td class="num">${money(arv)}</td></tr>
+   <tr class="total"><td>Projected profit</td><td class="num">${money(b.profit)}</td></tr>
+   <tr><td>Profit margin on ARV / ROI on cash</td><td class="num">${pct(b.margin)} / ${pct(b.roi)}</td></tr>
+   </tbody>`;
+
+  buildSensitivity();
+}
+
+function swings(){
+  const s = $("swing").value;
+  return s==="both" ? [-10,-5,0,5,10] : [-parseInt(s),0,parseInt(s)];
+}
+function sensData(){
+  const {i,arv,rep,b} = LAST, s = swings();
+  const cols = s.map(x=>({label:(x>0?"+":"")+x+"% repairs", mult:1+x/100}));
+  const rows = s.slice().reverse().map(x=>({label:(x>0?"+":"")+x+"% ARV", mult:1+x/100}));
+  const grid = rows.map(r=>cols.map(c=>{
+    const u = underwrite(arv*r.mult, rep*c.mult, i);
+    // profit to buyer if wholesaler holds contract at base MAO and same fee
+    const price = b.mao + i.fee;
+    const cash = price + rep*c.mult + u.holding + i.closeBuy;
+    const profitAtBase = arv*r.mult - cash - u.sellCosts;
+    return {mao:u.mao, profitAtBase, marginAtBase: arv*r.mult ? profitAtBase/(arv*r.mult) : 0};
+  }));
+  return {cols,rows,grid};
+}
+function buildSensitivity(){
+  const {i,b} = LAST, d = sensData();
+  $("sensNote").innerHTML = `Holds your contract price fixed at <strong>${money(b.mao)}</strong> and your fee at ${money(i.fee)},
+    then stresses ARV and repairs. Shaded green ≥15% margin, amber 10–15%, red below 10%.`;
+  const head = c => `<thead><tr><th>${c}</th>${d.cols.map(x=>`<th class="num">${x.label}</th>`).join("")}</tr></thead>`;
+  $("sensProfit").innerHTML = head("Scenario") + "<tbody>" + d.rows.map((r,ri)=>
+    `<tr><td>${r.label}</td>` + d.grid[ri].map(c=>{
+      const cl = c.marginAtBase>=.15?"cell-good":c.marginAtBase>=.10?"cell-warn":"cell-bad";
+      return `<td class="cell ${cl}">${money(c.profitAtBase)}<div class="mini">${pct(c.marginAtBase)}</div></td>`;
+    }).join("") + "</tr>").join("") + "</tbody>";
+  $("sensMao").innerHTML = head("Scenario") + "<tbody>" + d.rows.map((r,ri)=>
+    `<tr><td>${r.label}</td>` + d.grid[ri].map(c=>{
+      const gap = c.mao - b.mao;
+      const cl = gap>=0?"cell-good":gap>-5000?"cell-warn":"cell-bad";
+      return `<td class="cell ${cl}">${money(c.mao)}<div class="mini">${gap>=0?"+":""}${money(gap)}</div></td>`;
+    }).join("") + "</tr>").join("") + "</tbody>";
+}
+
+// PDF -------------------------------------------------------------
+function exportPDF(){
+  const {i,b,arv,rep} = LAST, d = sensData();
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({unit:"pt",format:"letter"});
+  const W = 612, M = 48; let y = 0;
+  const T=[232,237,243], DK=[13,17,23], AC=[24,169,153], GY=[110,122,135], LN=[214,220,227];
+
+  doc.setFillColor(...DK); doc.rect(0,0,W,86,"F");
+  doc.setTextColor(...AC); doc.setFont("helvetica","bold"); doc.setFontSize(9);
+  doc.text("MAO DESK  ·  WHOLESALE DEAL SUMMARY",M,34);
+  doc.setTextColor(...T); doc.setFontSize(17);
+  doc.text(doc.splitTextToSize(i.addr||"Subject Property",W-2*M)[0],M,58);
+  doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(150,163,177);
+  doc.text("Prepared for cash buyers · "+new Date().toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}),M,74);
+  y = 118;
+
+  // KPI band
+  const kp = [["Contract price to buyer",money(b.buyerMax)],["Buyer projected profit",money(b.profit)],
+              ["Margin on ARV",pct(b.margin)],["Return on cash",pct(b.roi)]];
+  const cw = (W-2*M)/4;
+  kp.forEach((k,n)=>{
+    const x = M+n*cw;
+    doc.setDrawColor(...LN); doc.setFillColor(246,248,250);
+    doc.roundedRect(x,y,cw-8,52,5,5,"FD");
+    doc.setFontSize(7.5); doc.setTextColor(...GY); doc.setFont("helvetica","bold");
+    doc.text(k[0].toUpperCase(),x+10,y+17,{maxWidth:cw-26});
+    doc.setFontSize(14); doc.setTextColor(...DK);
+    doc.text(k[1],x+10,y+39);
+  });
+  y += 78;
+
+  const table = (title, rows) => {
+    doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(...DK);
+    doc.text(title,M,y); y+=6;
+    doc.setDrawColor(...AC); doc.setLineWidth(1.4); doc.line(M,y,M+34,y); y+=16;
+    doc.setLineWidth(.5);
+    rows.forEach(r=>{
+      const bold = r[2]==="b";
+      doc.setFont("helvetica",bold?"bold":"normal"); doc.setFontSize(9.5);
+      doc.setTextColor(...(bold?DK:[60,70,82]));
+      doc.text(r[0],M,y); doc.text(r[1],W-M,y,{align:"right"});
+      doc.setDrawColor(...LN); doc.line(M,y+5,W-M,y+5);
+      y += bold?20:17;
+    });
+    y += 14;
+  };
+
+  table("Deal Underwriting", [
+    ["After Repair Value (ARV)",money(arv)],
+    ["Estimated repair budget",money(-rep)],
+    [`Holding costs (${i.months} mo × ${money(i.holdmo)})`,money(-b.holding)],
+    ["Buy-side closing costs",money(-i.closeBuy)],
+    [`Sell-side costs (${i.sellPct}% of ARV)`,money(-b.sellCosts)],
+    ["Required buyer profit",money(-b.required)],
+    ["End-buyer maximum price",money(b.buyerMax),"b"],
+    ["Wholesale / assignment fee",money(-i.fee)],
+    ["Maximum Allowable Offer to seller",money(b.mao),"b"]
+  ]);
+
+  table("End-Buyer Position", [
+    ["Purchase price",money(b.buyerMax)],
+    ["Repairs",money(rep)],
+    ["Holding costs",money(b.holding)],
+    ["Buy-side closing",money(i.closeBuy)],
+    ["Total cash invested",money(b.buyerCash),"b"],
+    ["Sell-side costs at resale",money(b.sellCosts)],
+    ["Resale proceeds at ARV",money(arv)],
+    ["Projected net profit",money(b.profit),"b"],
+    ["Profit margin on ARV / ROI on cash",pct(b.margin)+"  /  "+pct(b.roi)]
+  ]);
+
+  if(y > 560){ doc.addPage(); y = 60; }
+
+  // Sensitivity grid
+  doc.setFont("helvetica","bold"); doc.setFontSize(10.5); doc.setTextColor(...DK);
+  doc.text("Sensitivity — Buyer Profit (ARV vs. Repair Swings)",M,y); y+=6;
+  doc.setDrawColor(...AC); doc.setLineWidth(1.4); doc.line(M,y,M+34,y); y+=8; doc.setLineWidth(.5);
+  const n = d.cols.length+1, colw = (W-2*M)/n;
+  doc.setFontSize(8); doc.setTextColor(...GY);
+  doc.text("Scenario",M+4,y+14);
+  d.cols.forEach((c,ci)=>doc.text(c.label,M+colw*(ci+1)+colw-8,y+14,{align:"right"}));
+  y += 20;
+  d.rows.forEach((r,ri)=>{
+    doc.setDrawColor(...LN); doc.line(M,y,W-M,y);
+    doc.setFont("helvetica","bold"); doc.setFontSize(8.5); doc.setTextColor(...DK);
+    doc.text(r.label,M+4,y+15);
+    d.grid[ri].forEach((c,ci)=>{
+      const m = c.marginAtBase;
+      doc.setTextColor(...(m>=.15?[22,130,90]:m>=.10?[168,116,30]:[185,60,45]));
+      doc.setFont("helvetica","bold");
+      doc.text(money(c.profitAtBase),M+colw*(ci+1)+colw-8,y+13,{align:"right"});
+      doc.setFont("helvetica","normal"); doc.setFontSize(7.5); doc.setTextColor(...GY);
+      doc.text(pct(m),M+colw*(ci+1)+colw-8,y+22,{align:"right"});
+      doc.setFontSize(8.5);
+    });
+    y += 27;
+  });
+  doc.setDrawColor(...LN); doc.line(M,y,W-M,y); y+=18;
+  doc.setFont("helvetica","normal"); doc.setFontSize(8); doc.setTextColor(...GY);
+  doc.text(doc.splitTextToSize("Contract price held at "+money(b.buyerMax)+" in all scenarios. Figures are estimates based on the assumptions shown and are not an appraisal, inspection, loan commitment, or guarantee of profit. Buyer should verify ARV, repair scope, and carrying costs independently.",W-2*M),M,y);
+
+  doc.save("Deal-Summary-"+(i.addr||"property").replace(/[^a-z0-9]+/gi,"-").slice(0,40)+".pdf");
+}
+
+$("calc").onclick = run;
+$("pdf").onclick = exportPDF;
+$("reset").onclick = ()=>location.reload();
+document.querySelectorAll("input,select").forEach(el=>el.addEventListener("input",run));
+run();
+</script>
+</body>
+</html>
